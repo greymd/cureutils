@@ -153,7 +153,7 @@ module Cureutils
 
     desc 'janken', 'Let\'s play "Pikarin Janken" !'
     def janken
-      judge = JankenContoller.new.janken
+      judge = JankenContoller.janken
       exit(judge.to_i)
     end
 
