@@ -1,5 +1,2 @@
-require "cureutils/version"
-
-module Cureutils
-  # Your code goes here...
-end
+require 'cureutils/version'
+require 'cureutils/cli'

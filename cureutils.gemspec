@@ -5,10 +5,10 @@ require 'cureutils/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "cureutils"
-  spec.version       = Cureutils::VERSION
+  spec.version       = Cureutils::Version
   spec.authors       = ["Yamada, Yasuhiro"]
   spec.email         = ["greengregson@gmail.com"]
-  spec.summary       = %q{Useful command line tool for Japanese battle heroine "Pretty Cure (Precure)".}
+  spec.summary       = %q{Useful command line tool for battle heroine "Pretty Cure (Precure)".}
   spec.description   = %q{Commands which can smoothly deal with Precure-related data.}
   spec.homepage      = "https://github.com/greymd/cureutils"
   spec.license       = "MIT"

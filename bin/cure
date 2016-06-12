@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "cureutils"
+
+Cureutils::CLI.start
