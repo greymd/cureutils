@@ -151,7 +151,7 @@ module Cureutils
       puts print_time.strftime(updated_fmt)
     end
 
-    desc 'janken', 'Let\'s play "Pikarin Janken" !'
+    desc 'janken', %Q(Let's play "Pikarin Janken" !)
     def janken
       judge = JankenContoller.janken
       exit(judge.to_i)
