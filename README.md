@@ -32,9 +32,9 @@ $ cure date
 
 #### Options
 
- | Option | Description                                           |
- | --     | --                                                    |
- | -d     | cure date -d STRING: display time described by STRING |
+| Option | Description                                           |
+| ------ | ---------                                             |
+| -d     | cure date -d STRING: display time described by STRING |
 
 
 ```sh
@@ -82,16 +82,16 @@ $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | 
 
 #### Options
 
-| Option | Description                                                                                        |
-| --     | --                                                                                                 |
-| -E     | Interpret PATTERN as an extended regular expression.                                               |
-| -o     | Print only the matched (non-empty) parts of a matching line, with each such part on a separate out |
+| Option | Description                                                                                         |
+| ------ | -----------                                                                                         |
+| -E     | Interpret PATTERN as an extended regular expression.                                                |
+| -o     | Print only the matched (non-empty) parts of a matching line, with each such part on a separate out. |
 
 
 #### Folloing "Precure bracket expression" are available.
 
 | Expression       | Description                       |
-| --               | --                                |
+| ----------       | --------------                    |
 | [:cast_name:]    | Voice actor name.                 |
 | [:color:]        | Name of the color of the Precure. |
 | [:girl_name:]    | Girl name.                        |
