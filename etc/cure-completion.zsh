@@ -4,12 +4,12 @@
 
 # cure CMD
 subcommands=(
-	"help: Output the version number of grep and exit."
+	"help: Output the usage and exit."
 	"date: Display date, time and Precure related events."
 	"echo: Print messages of Precure."
 	"girls: Print girls' name"
 	"grep: Print lines matching a pattern."
-	"humanize: Change precure_name to human_name"
+	"humanize: Change precure_name to human_name."
 	"janken: Let's play \"Pikarin Janken\" !"
 	"precures: Print Precure names"
 	"tr: Translate Precure related parameters."
