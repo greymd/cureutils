@@ -115,7 +115,7 @@ $ echo 相田マナ | cure tr '[:human_name:]' '[:cast_name:]'
 #### Folloing "Precure bracket expression" are available.
 
 | Expression       | Description                       |
-| --               | --                                |
+| ----------       | --------------                    |
 | [:cast_name:]    | Voice actor name.                 |
 | [:color:]        | Name of the color of the Precure. |
 | [:girl_name:]    | Girl name.                        |
