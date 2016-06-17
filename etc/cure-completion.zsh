@@ -9,7 +9,7 @@ subcommands=(
 	"echo: Print messages of Precure."
 	"girls: Print girls' name"
 	"grep: Print lines matching a pattern."
-	"humanize: Change precure_name to human_name"
+	"humanize: Change precure_name to human_name."
 	"janken: Let's play \"Pikarin Janken\" !"
 	"precures: Print Precure names"
 	"tr: Translate Precure related parameters."

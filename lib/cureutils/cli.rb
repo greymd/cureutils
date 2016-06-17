@@ -29,38 +29,26 @@ module Cureutils
       print_converted_text($stdin, :human_name, :precure_name)
     end
 
-    desc 'humanize', 'Change precure_name to human_name'
+    desc 'humanize', 'Change precure_name to human_name.'
     def humanize
       print_converted_text($stdin, :precure_name, :human_name)
     end
 
-    desc 'girls', 'Print girls\' name'
+    desc 'girls', "Print girls' name"
     def girls
       Rubicure::Girl.config.map { |_k, v| v[:human_name] }.uniq.each do |v|
         puts v
       end
     end
 
-    desc 'precures', 'Print Precures\' name'
+    desc 'precures', 'Print Precure names'
     def precures
       Rubicure::Girl.config.map { |_k, v| v[:precure_name] }.uniq.each do |v|
         puts v
       end
     end
 
-    desc 'mytest', 'print arguments.'
-    option 'reduce', aliases: 'r'
-    def mytest(arg1 = 'arg1', fname = nil)
-      optstr = options[:reduce] ? options[:reduce] : 'empty'
-      @io = $stdout
-      @io.puts 'opt:' + optstr
-      @io.puts 'arg1:' + arg1
-      @io.puts 'fname:' + (fname ? fname : 'stdin')
-      @input = input_from(fname)
-      @input.each { |line| puts 'cap: ' + line }
-    end
-
-    desc 'grep [OPTIONS] PATTERN', 'print lines matching a pattern.'
+    desc 'grep [OPTIONS] PATTERN', 'Print lines matching a pattern.'
     option 'extended-regexp', aliases: 'E'
     option 'only-matching', aliases: 'o'
     def grep(pat = '[:precure_name:]', filename = nil)
@@ -103,14 +91,14 @@ module Cureutils
       end
     end
 
-    desc 'tr PATTERN REPLACE', 'Extract precure name or other related params.'
+    desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
       pat_from = pregex2str(pat_from).to_sym
       pat_to = pregex2str(pat_to).to_sym
       print_converted_text($stdin, pat_from, pat_to)
     end
 
-    desc 'echo PATTERN', 'Extract precure name or other related params.'
+    desc 'echo PATTERN', 'Print messages of Precure.'
     option 'quick',     aliases: 'q',
       type: :boolean,
       desc: 'Print messages immediately.'
@@ -140,7 +128,7 @@ module Cureutils
     end
 
     desc 'date [OPTIONS] [+FORMAT]',
-      'Extract precure name or other related params.'
+      'Display date, time and Precure related events.'
     option 'date', aliases: 'd'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
