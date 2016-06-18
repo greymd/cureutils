@@ -351,6 +351,14 @@ describe 'util' do
     expect(table[input]).to eq(result)
   end
 
+  it 'cure_table -  humanize キュアプリンセス' do
+    cli = Cureutils::CLI.new
+    input = '白雪ひめ(ヒメルダ・ウインドウ・キュアクイーン・オブ・ザ・ブルースカイ)'
+    result = 'キュアプリンセス'
+    table = cli.send(:cure_table, :human_name, :precure_name)
+    expect(table[input]).to eq(result)
+  end
+
   it 'cure_table -  キュアハニー 大森ゆうこ' do
     cli = Cureutils::CLI.new
     input = 'キュアハニー'
