@@ -204,16 +204,13 @@ module Cureutils
       end
     end
 
-    desc 'pregex2regex', 'Convert string to precure regular expression'
+    # Convert string to precure regular expression
     def pregex2regex(regex, br_flg = false)
       this_regex = regex.dup
       br_ex = br_flg ? '' : '?:'
       %w(girl_name human_name precure_name cast_name color).each do |attr|
         expression = '\[:' + attr + ':\]'
-        precures_ex = cure_list(attr.to_sym).each do |elem_str|
-          # Escape for cure princes.
-          elem_str.gsub(/\(/, '\(').gsub(/\)/, '\)')
-        end.join('|')
+        precures_ex = cure_list(attr.to_sym).join('|')
         replaced = "(#{br_ex}#{precures_ex})"
         this_regex.gsub!(/#{expression}/, replaced)
       end
@@ -231,6 +228,11 @@ module Cureutils
     def cure_list(sym)
       list = Precure.all_stars.map(&sym)
       list << Cure.echo[sym]
+      # Regulate cure princes human name
+      list.map do |str|
+        str.gsub!(/\(.+?\)/, '')
+        str
+      end
       list
     end
 

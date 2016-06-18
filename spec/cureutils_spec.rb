@@ -346,14 +346,14 @@ describe 'util' do
   it 'cure_table -  キュアプリンセス 白雪ひめ(ヒメルダ・ウインドウ・キュアクイーン・オブ・ザ・ブルースカイ)' do
     cli = Cureutils::CLI.new
     input = 'キュアプリンセス'
-    result = '白雪ひめ(ヒメルダ・ウインドウ・キュアクイーン・オブ・ザ・ブルースカイ)'
+    result = '白雪ひめ'
     table = cli.send(:cure_table, :precure_name, :human_name)
     expect(table[input]).to eq(result)
   end
 
-  it 'cure_table -  humanize キュアプリンセス' do
+  it 'cure_table -  transform 白雪ひめ' do
     cli = Cureutils::CLI.new
-    input = '白雪ひめ(ヒメルダ・ウインドウ・キュアクイーン・オブ・ザ・ブルースカイ)'
+    input = '白雪ひめ'
     result = 'キュアプリンセス'
     table = cli.send(:cure_table, :human_name, :precure_name)
     expect(table[input]).to eq(result)
