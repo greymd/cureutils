@@ -3,6 +3,7 @@
 </p>
 
 # Cureutils
+[![Gem Version](https://badge.fury.io/rb/cureutils.svg)](https://badge.fury.io/rb/cureutils)
 
 Useful command line tool for Japanese battle heroine "Pretty Cure (Precure)".
 
@@ -13,7 +14,7 @@ Install it yourself as:
     $ gem install cureutils
 
 
-After that, `cure` command is availabe.
+After that, `cure` command is available.
 
     $ cure
 
