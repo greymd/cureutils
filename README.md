@@ -14,7 +14,7 @@ Install it yourself as:
     $ gem install cureutils
 
 
-After that, `cure` command is availabe.
+After that, `cure` command is available.
 
     $ cure
 
