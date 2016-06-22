@@ -259,9 +259,34 @@ Yes！プリキュア5！
   assertEquals "$expected" "$result"
 }
 
-# test_grep() {
-#   result=`bundle exec cure grep`
-# }
+test_grep() {
+  echo "cure grep -- default"
+  result=`echo キュア{レッド,ピンク,ホワイト,ブルー,ブラック} 東せつな | xargs -n 1 |  bundle exec cure grep`
+  expected="キュアホワイト
+キュアブラック"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- -E option"
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep '^私は[:precure_name:]です'`
+  expected="私はキュアホワイトです。
+私はキュアブラックです。"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- with -o option"
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep -o '私は[:precure_name:]で'`
+  expected="私はキュアホワイトで
+私はキュアブラックで"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- with -o and -E options"
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep -oE '^私は.{3}'`
+  expected="私はキュア
+私はキュア
+私はキュア
+私はキュア
+私はキュア"
+  assertEquals "$expected" "$result"
+}
 
 # test_humanize() {
 #   result=`bundle exec cure humanize`
