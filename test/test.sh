@@ -476,12 +476,107 @@ test_transform() {
   assertEquals 0 $?
 }
 
-# test_janken() {
-#   result=`bundle exec cure janken`
-# }
+test_janken() {
+  # Win
+  result=`echo 0 | bundle exec cure janken`
+  assertEquals 0 $?
 
-# test_tr() {
-#   result=`bundle exec cure tr`
-# }
+  # Something
+  result=`echo 1 | bundle exec cure janken`
+  echo $? | grep -E '^(0|1|2)$' > /dev/null
+  assertEquals 0 $?
+}
+
+test_tr() {
+  result=`bundle exec cure girls | bundle exec cure tr '[:human_name:]' '[:cast_name:]'`
+  echo "${result}" | grep "本名陽子"
+  assertEquals 0 $?
+  echo "${result}" | grep "ゆかな"
+  assertEquals 0 $?
+  echo "${result}" | grep "田中理恵"
+  assertEquals 0 $?
+  echo "${result}" | grep "樹元オリエ"
+  assertEquals 0 $?
+  echo "${result}" | grep "榎本温子"
+  assertEquals 0 $?
+  echo "${result}" | grep "三瓶由布子"
+  assertEquals 0 $?
+  echo "${result}" | grep "竹内順子"
+  assertEquals 0 $?
+  echo "${result}" | grep "伊瀬茉莉也"
+  assertEquals 0 $?
+  echo "${result}" | grep "永野愛"
+  assertEquals 0 $?
+  echo "${result}" | grep "前田愛"
+  assertEquals 0 $?
+  echo "${result}" | grep "仙台エリ"
+  assertEquals 0 $?
+  echo "${result}" | grep "沖佳苗"
+  assertEquals 0 $?
+  echo "${result}" | grep "喜多村英梨"
+  assertEquals 0 $?
+  echo "${result}" | grep "中川亜紀子"
+  assertEquals 0 $?
+  echo "${result}" | grep "小松由佳"
+  assertEquals 0 $?
+  echo "${result}" | grep "水樹奈々"
+  assertEquals 0 $?
+  echo "${result}" | grep "水沢史絵"
+  assertEquals 0 $?
+  echo "${result}" | grep "桑島法子"
+  assertEquals 0 $?
+  echo "${result}" | grep "久川綾"
+  assertEquals 0 $?
+  echo "${result}" | grep "小清水亜美"
+  assertEquals 0 $?
+  echo "${result}" | grep "折笠富美子"
+  assertEquals 0 $?
+  echo "${result}" | grep "豊口めぐみ"
+  assertEquals 0 $?
+  echo "${result}" | grep "大久保瑠美"
+  assertEquals 0 $?
+  echo "${result}" | grep "福圓美里"
+  assertEquals 0 $?
+  echo "${result}" | grep "田野アサミ"
+  assertEquals 0 $?
+  echo "${result}" | grep "金元寿子"
+  assertEquals 0 $?
+  echo "${result}" | grep "井上麻里奈"
+  assertEquals 0 $?
+  echo "${result}" | grep "西村ちなみ"
+  assertEquals 0 $?
+  echo "${result}" | grep "生天目仁美"
+  assertEquals 0 $?
+  echo "${result}" | grep "寿美菜子"
+  assertEquals 0 $?
+  echo "${result}" | grep "渕上舞"
+  assertEquals 0 $?
+  echo "${result}" | grep "宮本佳那子"
+  assertEquals 0 $?
+  echo "${result}" | grep "釘宮理恵"
+  assertEquals 0 $?
+  echo "${result}" | grep "中島愛"
+  assertEquals 0 $?
+  echo "${result}" | grep "潘めぐみ"
+  assertEquals 0 $?
+  echo "${result}" | grep "北川里奈"
+  assertEquals 0 $?
+  echo "${result}" | grep "戸松遥"
+  assertEquals 0 $?
+  echo "${result}" | grep "嶋村侑"
+  assertEquals 0 $?
+  echo "${result}" | grep "浅野真澄"
+  assertEquals 0 $?
+  echo "${result}" | grep "山村響"
+  assertEquals 0 $?
+  echo "${result}" | grep "沢城みゆき"
+  assertEquals 0 $?
+  echo "${result}" | grep "高橋李依"
+  assertEquals 0 $?
+  echo "${result}" | grep "堀江由衣"
+  assertEquals 0 $?
+  echo "${result}" | grep "能登麻美子"
+  assertEquals 0 $?
+}
 
 . ${TEST_DIR}/shunit2/src/shunit2
