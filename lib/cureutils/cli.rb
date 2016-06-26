@@ -49,43 +49,43 @@ module Cureutils
     end
 
     desc 'grep [OPTIONS] PATTERN', 'Print lines matching a pattern.'
-    option 'extended-regexp', aliases: 'E'
-    option 'only-matching', aliases: 'o'
-    def grep(pat = '[:precure_name:]', filename = nil)
+    option 'extended-regexp', aliases: 'E',
+      type: :boolean,
+      desc: 'Disable Precure Bracket Expression.'
+    option 'only-matching', aliases: 'o',
+      type: :boolean,
+      desc: 'Print only the matched parts of a matching line.'
+    def grep(default_pat = '[:precure_name:]', filename = nil)
       # Check whether the file is given or not
       @input = input_from(filename)
-      extended_pat = options['extended-regexp'.to_sym]
-      if extended_pat
-        cure_pat = extended_pat
-      else
-        cure_pat = pregex2regex(pat)
-      end
+      pat = default_pat.clone
+      pat = pregex2regex(default_pat) unless options['extended-regexp'.to_sym]
       # Check the file discriptor and check the pipe exists or not.
-      pipe_flg = !$stdout.isatty
+      enable_color = !$stdout.isatty
       if options['only-matching'.to_sym]
-        if pipe_flg
+        if enable_color
           @input.each do |line|
-            matched_strs = line.scan(/#{cure_pat}/)
+            matched_strs = line.scan(/#{pat}/)
             matched_strs.empty? || matched_strs.each do |str|
               puts str
             end
           end
         else
           @input.each do |line|
-            matched_strs = line.scan(/#{cure_pat}/)
+            matched_strs = line.scan(/#{pat}/)
             matched_strs.empty? || matched_strs.each do |str|
               puts str.red
             end
           end
         end
       else
-        if pipe_flg
+        if enable_color
           @input.each do |line|
-            puts line.gsub(/#{cure_pat}/, '\0') if line =~ /#{cure_pat}/
+            puts line.gsub(/#{pat}/, '\0') if line =~ /#{pat}/
           end
         else
           @input.each do |line|
-            puts line.gsub(/#{cure_pat}/, '\0'.red) if line =~ /#{cure_pat}/
+            puts line.gsub(/#{pat}/, '\0'.red) if line =~ /#{pat}/
           end
         end
       end
