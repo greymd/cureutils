@@ -3,7 +3,11 @@ TEST_DIR=`dirname $0`
 BIN_DIR="${TEST_DIR}/../bin"
 
 setUp(){
-    cd $BIN_DIR 2> /dev/null
+  cd $BIN_DIR 2> /dev/null
+}
+
+tearDown(){
+  [ -e tmpfile ] && rm tmpfile
 }
 
 test_girls(){
@@ -286,6 +290,39 @@ test_grep() {
 私はキュア
 私はキュア"
   assertEquals "$expected" "$result"
+
+  # TODO: Support default filter with input file.
+  echo "cure grep -- default with file"
+  echo キュア{レッド,ピンク,ホワイト,ブルー,ブラック} 東せつな | xargs -n 1 > tmpfile
+  result=`bundle exec cure grep '[:precure_name:]' tmpfile`
+  expected="キュアホワイト
+キュアブラック"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- -E option with file"
+  echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
+  result=`bundle exec cure grep '^私は[:precure_name:]です' tmpfile`
+  expected="私はキュアホワイトです。
+私はキュアブラックです。"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- with -o option with file"
+  echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
+  result=`bundle exec cure grep -o '私は[:precure_name:]で' tmpfile`
+  expected="私はキュアホワイトで
+私はキュアブラックで"
+  assertEquals "$expected" "$result"
+
+  echo "cure grep -- with -o and -E options with file"
+  echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
+  result=`bundle exec cure grep -oE '^私は.{3}' tmpfile`
+  expected="私はキュア
+私はキュア
+私はキュア
+私はキュア
+私はキュア"
+  assertEquals "$expected" "$result"
+
 }
 
 test_humanize() {
