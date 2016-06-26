@@ -14,6 +14,10 @@ module Cureutils
     TRANSFORM = 1
     ATTACK = 2
   end
+  module GrepColorMode
+    NONE = 'to_s'
+    RED = 'red'
+  end
   #
   # The class represents the cli interface
   #
@@ -58,6 +62,7 @@ module Cureutils
     def grep(default_pat = '[:precure_name:]', filename = nil)
       # Check whether the file is given or not
       @input = input_from(filename)
+      @output = $stdout
       pat = default_pat.clone
       pat = pregex2regex(default_pat) unless options['extended-regexp'.to_sym]
       # Check the file discriptor and check the pipe exists or not.
@@ -66,30 +71,59 @@ module Cureutils
         if enable_color
           @input.each do |line|
             matched_strs = line.scan(/#{pat}/)
-            matched_strs.empty? || matched_strs.each do |str|
-              puts str
+            if matched_strs
+              matched_strs.each do |str|
+                @output.puts str
+              end
             end
           end
         else
           @input.each do |line|
             matched_strs = line.scan(/#{pat}/)
-            matched_strs.empty? || matched_strs.each do |str|
-              puts str.red
+            if matched_strs
+              matched_strs.each do |str|
+                @output.puts str.red
+              end
             end
           end
         end
       else
         if enable_color
           @input.each do |line|
-            puts line.gsub(/#{pat}/, '\0') if line =~ /#{pat}/
+            matched_strs = line.match(/#{pat}/)
+            if matched_strs
+              str = line.gsub(/#{pat}/, '\0')
+              @output.puts str
+            end
           end
         else
           @input.each do |line|
-            puts line.gsub(/#{pat}/, '\0'.red) if line =~ /#{pat}/
+            matched_strs = line.match(/#{pat}/)
+            if matched_strs
+              str = line.gsub(/#{pat}/, '\0'.red)
+              @output.puts str
+            end
           end
         end
       end
     end
+
+    # def print_grep_results(colorize, only_matched, pattern)
+    #   match_method = (only_matched ? 'scan' : 'match')
+    #   str_color = (colorize ? GrepColorMode::RED : GrepColorMode::NONE)
+    #   @input.each do |line|
+    #     matched_strs = line.send(match_method, pattern)
+    #     next unless matched_strs
+    #     if only_matched
+    #       matched_strs.each do |str|
+    #         @output.puts str
+    #       end
+    #     else
+    #       str = line.gsub(/#{pat}/, '\0'.red)
+    #       @output.puts str
+    #     end
+    #   end
+    # end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
