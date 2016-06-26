@@ -38,6 +38,13 @@ describe 'pregex2regex' do
     expect(cli.send(:pregex2regex, input)).to eq(result)
   end
 
+  it 'precure_nameで' do
+    input = '[:precure_name:]で'
+    result = @precure_names_ex + 'で'
+    cli = Cureutils::CLI.new
+    expect(cli.send(:pregex2regex, input)).to eq(result)
+  end
+
   it 'precure_name + other regex' do
     cli = Cureutils::CLI.new
     input = '^.*[:precure_name:].*[abc]$'
