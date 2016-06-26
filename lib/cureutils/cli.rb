@@ -2,6 +2,7 @@
 require 'cureutils/version'
 require 'cureutils/janken_controller'
 require 'cureutils/cure_date_checker'
+require 'cureutils/cure_grep_manager'
 require 'active_support'
 require 'active_support/time'
 require 'time'
@@ -13,10 +14,6 @@ module Cureutils
   module EchoMode
     TRANSFORM = 1
     ATTACK = 2
-  end
-  module GrepColorMode
-    NONE = :to_s
-    RED = :red
   end
   #
   # The class represents the cli interface
@@ -54,21 +51,21 @@ module Cureutils
 
     desc 'grep [OPTIONS] PATTERN', 'Print lines matching a pattern.'
     option 'extended-regexp', aliases: 'E',
-      type: :boolean,
-      desc: 'Disable Precure Bracket Expression.'
+                              type: :boolean,
+                              desc: 'Disable Precure Bracket Expression.'
     option 'only-matching', aliases: 'o',
-      type: :boolean,
-      desc: 'Print only the matched parts of a matching line.'
+                            type: :boolean,
+                            desc: 'Print only the matched parts.'
     def grep(default_pat = '[:precure_name:]', filename = nil)
-      # Check whether the file is given or not
-      @input = input_from(filename)
-      @output = $stdout
       pat = default_pat.clone
       pat = pregex2regex(default_pat) unless options['extended-regexp'.to_sym]
-      # Check the file discriptor and check the pipe exists or not.
-      enable_color = $stdout.isatty
-      only_matched = options['only-matching'.to_sym]
-      print_grep_results(enable_color, only_matched, /#{pat}/)
+      CureGrepManager.source_input(filename)
+      CureGrepManager.source_output($stdout)
+      # Check the file discriptor to check the pipe exists or not.
+      CureGrepManager.option_colorize($stdout.isatty)
+      CureGrepManager.option_only(options['only-matching'.to_sym])
+      # Print matched lines.
+      CureGrepManager.print_results(/#{pat}/)
     end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
@@ -80,14 +77,17 @@ module Cureutils
 
     desc 'echo PATTERN', 'Print messages of Precure.'
     option 'quick',     aliases: 'q',
-      type: :boolean,
-      desc: 'Print messages immediately.'
+                        type: :boolean,
+                        desc: 'Print messages immediately.'
     option 'attack',    aliases: 'a',
-      type: :boolean, desc: 'Print attack message.'
+                        type: :boolean,
+                        desc: 'Print attack message.'
     option 'transform', aliases: 't',
-      type: :boolean, desc: 'Print transform message.'
+                        type: :boolean,
+                        desc: 'Print transform message.'
     option 'precure',   aliases: 'p',
-      type: :string, desc: "Print the given PRECURE's message."
+                        type: :string,
+                        desc: "Print the given PRECURE's message."
     def echo
       cure_name = options[:precure] || 'echo'
       message_mode = EchoMode::TRANSFORM
@@ -126,41 +126,6 @@ module Cureutils
     end
 
     private
-
-    def print_grep_results(colorize, only_matched, pattern)
-      match_method = (only_matched ? 'scan' : 'match')
-      str_color = (colorize ? GrepColorMode::RED : GrepColorMode::NONE)
-      @input.each do |line|
-        matched_strs = line.send(match_method, pattern)
-        next unless matched_strs
-        if only_matched
-          matched_strs.each do |str|
-            @output.puts str.send(str_color)
-          end
-        else
-          str = line.gsub(pattern, '\0'.send(str_color))
-          @output.puts str
-        end
-      end
-    end
-
-    def input_from(filename)
-      if filename.nil? || filename.empty?
-        output = $stdin
-      elsif filename =~ /^-$/
-        # If the file name is "-", use STDIN.
-        output = $stdin
-      else
-        begin
-          output = File.open(filename)
-        rescue SystemCallError => e
-          puts %(class=[#{e.class}] message=[#{e.message}])
-        rescue IOError => e
-          puts %(class=[#{e.class}] message=[#{e.message}])
-        end
-      end
-      output
-    end
 
     def update_fmt(datetime, fmt)
       # Find precure related events
@@ -240,8 +205,8 @@ module Cureutils
       hash
     end
 
-    def time2date(timeObj)
-      Date.parse(timeObj.strftime('%Y-%m-%d'))
+    def time2date(time_obj)
+      Date.parse(time_obj.strftime('%Y-%m-%d'))
     end
 
     def print_converted_text(input, from_sym, to_sym)
