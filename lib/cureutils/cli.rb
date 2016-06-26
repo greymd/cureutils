@@ -65,7 +65,8 @@ module Cureutils
       CureGrepManager.option_colorize($stdout.isatty)
       CureGrepManager.option_only(options['only-matching'.to_sym])
       # Print matched lines.
-      CureGrepManager.print_results(/#{pat}/)
+      exit_status = CureGrepManager.print_results(/#{pat}/)
+      exit(exit_status)
     end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
@@ -108,7 +109,7 @@ module Cureutils
     end
 
     desc 'date [OPTIONS] [+FORMAT]',
-      'Display date, time and Precure related events.'
+         'Display date, time and Precure related events.'
     option 'date', aliases: 'd'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.

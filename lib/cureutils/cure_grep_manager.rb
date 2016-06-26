@@ -35,15 +35,18 @@ class CureGrepManager
     end
 
     def print_results(pattern)
+      exit_status = 1
       @input.each do |line|
         matched_strs = line.send(@match_method, pattern)
         next unless matched_strs
+        exit_status = 0
         if @only_matched
           matched_strs.each { |str| @output.puts str.send(@str_color) }
         else
           @output.puts line.gsub(pattern, '\0'.send(@str_color))
         end
       end
+      exit_status
     end
 
     private
