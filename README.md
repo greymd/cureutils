@@ -24,7 +24,7 @@ After that, `cure` command is available.
 $ cure help
 Commands:
   cure date [OPTIONS] [+FORMAT]  # Display date, time and Precure related events.
-  cure echo PATTERN              # Print messages of Precure.
+  cure echo [OPTIONS] PATTERN    # Print messages of Precure.
   cure girls                     # Print girls' name
   cure grep [OPTIONS] PATTERN    # Print lines matching a pattern.
   cure help [COMMAND]            # Describe available commands or one specific command
@@ -37,6 +37,10 @@ Commands:
 
 ## `cure date`
 Display date, time and Precure related events.
+
+```
+cure date [OPTIONS] [+FORMAT]
+```
 
 ```sh
 $ cure date
@@ -60,22 +64,41 @@ And other general date formats are usable.
 | ------ | ---------                                             |
 | -d     | cure date -d STRING: display time described by STRING |
 
-
 ```sh
 $ cure date -d '3 years ago' '+%Y/%m @P'
 2013/06 ドキドキ！プリキュア放映期間
 ```
 
-
 ## `cure echo`
 Print messages of Precure.
+
+```
+cure echo [OPTIONS] PATTERN
+```
 
 ```sh
 $ cure echo
 みんなの思いを守るために
 心をひとつに！
 思いよ届け！キュアエコー！
+
+$ cure echo -p happy
+(レディ？)
+プリキュア・スマイルチャージ！
+(ゴー！ゴー！レッツ・ゴー！ハッピー！！)
+キラキラ輝く未来の光！ キュアハッピー！
+5つの光が導く未来！
+輝け！スマイルプリキュア！
 ```
+
+### Options
+
+| Option | Description                        |
+| ------ | -----------                        |
+| -a     | Print attack message.              |
+| -q     | Print messages immediately.        |
+| -p     | Print the given PRECURE's message. |
+
 
 ## `cure girls`
 Print girls' name.
@@ -98,10 +121,17 @@ $ cure girls
 ## `cure grep`
 Print lines matching a pattern.
 
+```
+cure grep [OPTIONS] PATTERN
+```
+
 ```sh
 $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | cure grep
  キュアブラック
  キュアホワイト
+
+$ echo "こんにちは、 私はキュアレモネードです。" | cure grep '私は[:precure_name:]です。'
+こんにちは、 私はキュアレモネードです。
 ```
 
 ### Options
@@ -122,11 +152,6 @@ $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | 
 | [:human_name:]   | Real name before transforming.    |
 | [:precure_name:] | Precure name.                     |
 
-
-```sh
-$ cat txt | cure grep '私は[:precure_name:]です。'
-こんにちは、 私はキュアレモネードです。
-```
 
 ## `cure tr`
 Translate Precure related parameters.
