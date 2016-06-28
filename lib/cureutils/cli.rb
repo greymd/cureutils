@@ -76,7 +76,7 @@ module Cureutils
       print_converted_text($stdin, pat_from, pat_to)
     end
 
-    desc 'echo PATTERN', 'Print messages of Precure.'
+    desc 'echo [OPTIONS] PATTERN', 'Print messages of Precure.'
     option 'quick',     aliases: 'q',
                         type: :boolean,
                         desc: 'Print messages immediately.'
@@ -120,10 +120,9 @@ module Cureutils
       puts print_time.strftime(updated_fmt)
     end
 
-    desc 'janken', %Q(Let's play "Pikarin Janken" !)
+    desc 'janken', %q(Let's play "Pikarin Janken" !)
     def janken
-      judge = JankenContoller.janken
-      exit(judge.to_i)
+      exit(JankenContoller.janken.to_i)
     end
 
     private
