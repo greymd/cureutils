@@ -13,6 +13,7 @@ class CureGrepManager
     @in = $stdin
     @out = $stdout
     @err = $stderr
+    @match_method = 'match'
   end
 
   def option_only(only_flag)
@@ -39,16 +40,24 @@ class CureGrepManager
     end
   end
 
-  def print_results(pattern)
+  def pattern(pat, is_exregex = false)
+    if is_exregex
+      @pattern = /#{pat}/
+      return
+    end
+    @pattern = /#{Common.pregex2regex(pat)}/
+  end
+
+  def print_results
     exit_status = 1
     @in.each do |line|
-      matched_strs = line.send(@match_method, pattern)
+      matched_strs = line.send(@match_method, @pattern)
       next unless matched_strs
       exit_status = 0
       if @only_matched
         matched_strs.each { |str| @out.puts str.send(@str_color) }
       else
-        @out.puts line.gsub(pattern, '\0'.send(@str_color))
+        @out.puts line.gsub(@pattern, '\0'.send(@str_color))
       end
     end
     exit_status
