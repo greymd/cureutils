@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Cureutils::Version
   spec.authors       = ['Yamada, Yasuhiro']
   spec.email         = ['greengregson@gmail.com']
-  spec.summary       = 'Useful commands for battle heroine "Pretty Cure (Precure)".'
-  spec.description   = 'Commands which can smoothly deal with Precure-related data.'
+  spec.summary       = 'Useful commands for battle heroine Pretty Cure (Precure).'
+  spec.description   = 'Useful command line tool for Japanese battle heroine Pretty Cure (Precure).'
   spec.homepage      = 'https://github.com/greymd/cureutils'
   spec.license       = 'MIT'
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
