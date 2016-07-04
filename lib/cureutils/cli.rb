@@ -1,7 +1,7 @@
 # coding: utf-8
 require 'cureutils/version'
 require 'cureutils/janken_controller'
-require 'cureutils/cure_date_checker'
+require 'cureutils/cure_date_manager'
 require 'cureutils/cure_grep_manager'
 require 'active_support'
 require 'active_support/time'
@@ -130,7 +130,7 @@ module Cureutils
     def update_fmt(datetime, fmt)
       # Find precure related events
       date4check_event = time2date(datetime)
-      found_event = CureDateChecker.events(date4check_event)
+      found_event = CureDateManager.events(date4check_event)
       checked_fmt = fmt
       if fmt =~ /^\+(.*)$/
         checked_fmt = Regexp.last_match(1)

@@ -3,7 +3,7 @@ require 'date'
 #
 # Date class supports the precure format
 #
-class CureDateChecker
+class CureDateManager
   class << self
     def events(date)
       create_hash
