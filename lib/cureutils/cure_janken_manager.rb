@@ -1,6 +1,6 @@
 # coding: utf-8
 #
-# Wrapper class of Pikarin Janken
+# Class of Pikarin Janken
 #
 class CureJankenManager
   def initialize

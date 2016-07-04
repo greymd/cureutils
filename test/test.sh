@@ -98,6 +98,8 @@ test_girls(){
     assertEquals 0 $?
     echo "${result}" | grep "十六夜リコ"
     assertEquals 0 $?
+    echo "${result}" | grep "花海ことは"
+    assertEquals 0 $?
     echo "${result}" | grep "坂上あゆみ"
     assertEquals 0 $?
 }
@@ -193,6 +195,8 @@ test_precures () {
     echo "${result}" | grep "キュアミラクル"
     assertEquals 0 $?
     echo "${result}" | grep "キュアマジカル"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアフェリーチェ"
     assertEquals 0 $?
     echo "${result}" | grep "キュアエコー"
     assertEquals 0 $?
@@ -421,6 +425,8 @@ test_humanize() {
   assertEquals 0 $?
   echo "${result}" | grep "十六夜リコ"
   assertEquals 0 $?
+  echo "${result}" | grep "花海ことは"
+  assertEquals 0 $?
   echo "${result}" | grep "坂上あゆみ"
   assertEquals 0 $?
 }
@@ -516,6 +522,8 @@ test_transform() {
   echo "${result}" | grep "キュアミラクル"
   assertEquals 0 $?
   echo "${result}" | grep "キュアマジカル"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアフェリーチェ"
   assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
@@ -619,6 +627,8 @@ test_tr() {
   echo "${result}" | grep "高橋李依"
   assertEquals 0 $?
   echo "${result}" | grep "堀江由衣"
+  assertEquals 0 $?
+  echo "${result}" | grep "早見沙織"
   assertEquals 0 $?
   echo "${result}" | grep "能登麻美子"
   assertEquals 0 $?
