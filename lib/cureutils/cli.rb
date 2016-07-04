@@ -4,6 +4,7 @@ require 'cureutils/cure_janken_manager'
 require 'cureutils/cure_date_manager'
 require 'cureutils/cure_grep_manager'
 require 'cureutils/cure_echo_manager'
+require 'cureutils/cure_translate_manager'
 require 'active_support'
 require 'active_support/time'
 require 'time'
@@ -24,12 +25,18 @@ module Cureutils
 
     desc 'transform', 'Change human_name to precure_name'
     def transform
-      print_converted_text($stdin, :human_name, :precure_name)
+      manager = CureTranslateManager.new
+      manager.translate_from_to('[:human_name:]', '[:precure_name:]')
+      manager.in = $stdin
+      exit(manager.print_results)
     end
 
     desc 'humanize', 'Change precure_name to human_name.'
     def humanize
-      print_converted_text($stdin, :precure_name, :human_name)
+      manager = CureTranslateManager.new
+      manager.translate_from_to('[:precure_name:]', '[:human_name:]')
+      manager.in = $stdin
+      exit(manager.print_results)
     end
 
     desc 'girls', "Print girls' name"
@@ -68,9 +75,10 @@ module Cureutils
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
-      pat_from = pregex2str(pat_from).to_sym
-      pat_to = pregex2str(pat_to).to_sym
-      print_converted_text($stdin, pat_from, pat_to)
+      manager = CureTranslateManager.new
+      manager.in = $stdin
+      manager.translate_from_to(pat_from, pat_to)
+      exit(manager.print_results)
     end
 
     desc 'echo [OPTIONS] PATTERN', 'Print messages of Precure.'
@@ -114,6 +122,7 @@ module Cureutils
 
     private
 
+    # TODO: Common method
     # Convert string to precure regular expression
     def pregex2regex(regex, br_flg = false)
       this_regex = regex.dup
@@ -127,14 +136,7 @@ module Cureutils
       this_regex
     end
 
-    def str2pregex(str)
-      '[:' + str + ':]'
-    end
-
-    def pregex2str(str)
-      str.gsub(/\[:(.*):\]/, '\1')
-    end
-
+    # TODO: Common method
     def cure_list(sym)
       list = Precure.all_stars.map(&sym)
       list << Cure.echo[sym]
@@ -146,27 +148,12 @@ module Cureutils
       list
     end
 
+    # TODO: Common method
     def cure_table(to_sym, from_sym)
       to_arr = cure_list(to_sym)
       from_arr = cure_list(from_sym)
       hash = Hash[[to_arr, from_arr].transpose]
       hash
-    end
-
-    def print_converted_text(input, from_sym, to_sym)
-      # Create precure regular expression
-      regex_tag = str2pregex(from_sym.to_s)
-      # Get patterns
-      cure_pattern = pregex2regex(regex_tag, true)
-      # Get Key-Value
-      table = cure_table(from_sym, to_sym)
-      input.each do |line|
-        updated_line = line.dup
-        line.scan(/#{cure_pattern}/).each do |pat|
-          updated_line.gsub!(/#{pat[0]}/, table[pat[0]])
-        end
-        puts updated_line
-      end
     end
   end
 end
