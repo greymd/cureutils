@@ -1,6 +1,6 @@
 # coding: utf-8
 require 'cureutils/version'
-require 'cureutils/janken_controller'
+require 'cureutils/cure_janken_manager'
 require 'cureutils/cure_date_manager'
 require 'cureutils/cure_grep_manager'
 require 'cureutils/cure_echo_manager'
@@ -108,7 +108,8 @@ module Cureutils
 
     desc 'janken', %q(Let's play "Pikarin Janken" !)
     def janken
-      exit(JankenContoller.janken.to_i)
+      manager = CureJankenManager.new
+      exit(manager.janken.to_i)
     end
 
     private
