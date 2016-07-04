@@ -261,6 +261,10 @@ Yes！プリキュア5！
 大地を揺るがす乙女の怒り、受けてみなさい！
 プリキュア！エメラルド・ソーサー！"
   assertEquals "$expected" "$result"
+
+  echo "cure echo -- non-existing precure"
+  result=`bundle exec cure echo -qp grepon`
+  assertEquals "1" "$?"
 }
 
 test_grep() {

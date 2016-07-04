@@ -3,6 +3,7 @@ require 'cureutils/version'
 require 'cureutils/janken_controller'
 require 'cureutils/cure_date_manager'
 require 'cureutils/cure_grep_manager'
+require 'cureutils/cure_echo_manager'
 require 'active_support'
 require 'active_support/time'
 require 'time'
@@ -11,10 +12,6 @@ require 'rubicure'
 require 'colorize'
 
 module Cureutils
-  module EchoMode
-    TRANSFORM = 1
-    ATTACK = 2
-  end
   #
   # The class represents the cli interface
   #
@@ -90,22 +87,11 @@ module Cureutils
                         type: :string,
                         desc: "Print the given PRECURE's message."
     def echo
-      cure_name = options[:precure] || 'echo'
-      message_mode = EchoMode::TRANSFORM
-      message_mode = EchoMode::TRANSFORM if options[:transform]
-      message_mode = EchoMode::ATTACK if options[:attack]
-      Rubicure::Girl.sleep_sec = 0 if options[:quick]
-      cure = Rubicure::Girl.config.find { |k, _v| k == cure_name.to_sym }
-      unless cure
-        $stderr.puts "No such precure #{cure_name}"
-        exit(1)
-      end
-      if message_mode == EchoMode::TRANSFORM
-        Cure.send(cure_name.to_sym).transform!
-      elsif message_mode == EchoMode::ATTACK
-        Cure.send(cure_name.to_sym).transform!
-        Cure.send(cure_name.to_sym).attack!
-      end
+      manager = CureEchoManager.new
+      manager.precure(options[:precure])
+      manager.msg_attack(options[:attack])
+      manager.nosleep(options[:quick])
+      exit(manager.print_results)
     end
 
     desc 'date [OPTIONS] [+FORMAT]',
