@@ -9,54 +9,58 @@ class CureGrepManager
     RED = :red
   end
 
-  class << self
-    def option_only(only_flag)
-      @only_matched = only_flag
-      @match_method = (only_flag ? 'scan' : 'match')
-    end
+  def initialize
+    @in = $stdin
+    @out = $stdout
+    @err = $stderr
+  end
 
-    def option_colorize(colorize)
-      @str_color = (colorize ? ColorMode::RED : ColorMode::NONE)
-    end
+  def option_only(only_flag)
+    @only_matched = only_flag
+    @match_method = (only_flag ? 'scan' : 'match')
+  end
 
-    def source_output(source = $stdout)
-      @output = source
-    end
+  def option_colorize(colorize)
+    @str_color = (colorize ? ColorMode::RED : ColorMode::NONE)
+  end
 
-    def source_input(source = nil)
-      if source.nil? || source.empty?
-        @input = $stdin
-      elsif source =~ /^-$/
-        # If the file name is "-", use STDIN.
-        @input = $stdin
+  def source_output(source = $stdout)
+    @out = source
+  end
+
+  def source_input(source = nil)
+    if source.nil? || source.empty?
+      @in = $stdin
+    elsif source =~ /^-$/
+      # If the file name is "-", use STDIN.
+      @in = $stdin
+    else
+      file(source)
+    end
+  end
+
+  def print_results(pattern)
+    exit_status = 1
+    @in.each do |line|
+      matched_strs = line.send(@match_method, pattern)
+      next unless matched_strs
+      exit_status = 0
+      if @only_matched
+        matched_strs.each { |str| @out.puts str.send(@str_color) }
       else
-        file(source)
+        @out.puts line.gsub(pattern, '\0'.send(@str_color))
       end
     end
+    exit_status
+  end
 
-    def print_results(pattern)
-      exit_status = 1
-      @input.each do |line|
-        matched_strs = line.send(@match_method, pattern)
-        next unless matched_strs
-        exit_status = 0
-        if @only_matched
-          matched_strs.each { |str| @output.puts str.send(@str_color) }
-        else
-          @output.puts line.gsub(pattern, '\0'.send(@str_color))
-        end
-      end
-      exit_status
-    end
+  private
 
-    private
-
-    def file(filename)
-      @input = File.open(filename)
-    rescue SystemCallError => e
-      puts %(class=[#{e.class}] message=[#{e.message}])
-    rescue IOError => e
-      puts %(class=[#{e.class}] message=[#{e.message}])
-    end
+  def file(filename)
+    @in = File.open(filename)
+  rescue SystemCallError => e
+    puts %(class=[#{e.class}] message=[#{e.message}])
+  rescue IOError => e
+    puts %(class=[#{e.class}] message=[#{e.message}])
   end
 end

@@ -56,13 +56,13 @@ module Cureutils
     def grep(default_pat = '[:precure_name:]', filename = nil)
       pat = default_pat.clone
       pat = pregex2regex(default_pat) unless options['extended-regexp'.to_sym]
-      CureGrepManager.source_input(filename)
-      CureGrepManager.source_output($stdout)
+      manager = CureGrepManager.new
+      manager.source_input(filename)
       # Check the file discriptor to check the pipe exists or not.
-      CureGrepManager.option_colorize($stdout.isatty)
-      CureGrepManager.option_only(options['only-matching'.to_sym])
+      manager.option_colorize($stdout.isatty)
+      manager.option_only(options['only-matching'.to_sym])
       # Print matched lines.
-      exit_status = CureGrepManager.print_results(/#{pat}/)
+      exit_status = manager.print_results(/#{pat}/)
       exit(exit_status)
     end
 
@@ -100,10 +100,10 @@ module Cureutils
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
-      # -d, --date=STRING (YYYY-MM-DD or +-N days)
-      print_time = create_time_obj(options[:date])
-      updated_fmt = update_fmt(print_time, fmt)
-      puts print_time.strftime(updated_fmt)
+      manager = CureDateManager.new
+      manager.datetime(options[:date])
+      manager.format = fmt
+      exit(manager.print_results)
     end
 
     desc 'janken', %q(Let's play "Pikarin Janken" !)
@@ -113,45 +113,6 @@ module Cureutils
     end
 
     private
-
-    def update_fmt(datetime, fmt)
-      # Find precure related events
-      date4check_event = time2date(datetime)
-      found_event = CureDateManager.events(date4check_event)
-      checked_fmt = fmt
-      if fmt =~ /^\+(.*)$/
-        checked_fmt = Regexp.last_match(1)
-      else
-        puts "cure date: invalid date format '#{fmt}'"
-        exit 1
-      end
-      # Find precure related events
-      checked_fmt.gsub(/@P/, found_event)
-    end
-
-    def create_time_obj(time_str)
-      time_str ? natural_lang2time(time_str) : Time.now
-    end
-
-    def natural_lang2time(time_str)
-      updated_fmt = time_str.dup
-      updated_fmt.gsub!(/yesterday/, '1 day ago')
-      updated_fmt.gsub!(/tomorrow/, '-1 day ago')
-      units = 'second|minute|hour|day|week|month|year'
-      regulated_format = /(-?[0-9]+) *(#{units})s? *(ago)?/
-      if updated_fmt =~ regulated_format
-        diff_value = Regexp.last_match(1).to_i
-        unit = Regexp.last_match(2).to_sym
-        minus_flg = Regexp.last_match(3)
-        if minus_flg.nil?
-          Time.now + diff_value.send(unit)
-        else
-          Time.now - diff_value.send(unit)
-        end
-      else
-        Time.parse(updated_fmt)
-      end
-    end
 
     # Convert string to precure regular expression
     def pregex2regex(regex, br_flg = false)
@@ -190,10 +151,6 @@ module Cureutils
       from_arr = cure_list(from_sym)
       hash = Hash[[to_arr, from_arr].transpose]
       hash
-    end
-
-    def time2date(time_obj)
-      Date.parse(time_obj.strftime('%Y-%m-%d'))
     end
 
     def print_converted_text(input, from_sym, to_sym)

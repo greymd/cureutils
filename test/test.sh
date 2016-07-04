@@ -327,6 +327,10 @@ test_grep() {
 私はキュア"
   assertEquals "$expected" "$result"
 
+  echo "cure grep -- no matches"
+  echo 私はキュア{foo,bar,hoge}です。| xargs -n 1 > tmpfile
+  result=`cat tmpfile | bundle exec cure grep`
+  assertEquals "1" "$?"
 }
 
 test_humanize() {
