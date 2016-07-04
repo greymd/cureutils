@@ -69,8 +69,7 @@ module Cureutils
       manager.option_colorize($stdout.isatty)
       manager.option_only(options['only-matching'.to_sym])
       # Print matched lines.
-      exit_status = manager.print_results
-      exit(exit_status)
+      exit(manager.print_results)
     end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
