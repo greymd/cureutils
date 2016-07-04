@@ -5,11 +5,11 @@
 # Cureutils
 [![Gem Version](https://badge.fury.io/rb/cureutils.svg)](https://badge.fury.io/rb/cureutils)
 
-Useful command line tool for Japanese battle heroine "Pretty Cure (Precure)".
+Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
 
 ## Installation
 
-Install it yourself as:
+Install:
 
     $ gem install cureutils
 
@@ -18,47 +18,90 @@ After that, `cure` command is available.
 
     $ cure
 
-## Usage
+# Usage
 
-### cure date
+```
+$ cure help
+Commands:
+  cure date [OPTIONS] [+FORMAT]  # Display date, time and Precure related events.
+  cure echo [OPTIONS] PATTERN    # Print messages of Precure.
+  cure girls                     # Print girls' name
+  cure grep [OPTIONS] PATTERN    # Print lines matching a pattern.
+  cure help [COMMAND]            # Describe available commands or one specific command
+  cure humanize                  # Change precure_name to human_name.
+  cure janken                    # Let's play "Pikarin Janken" !
+  cure precures                  # Print Precure names
+  cure tr PATTERN REPLACE        # Translate Precure related parameters.
+  cure transform                 # Change human_name to precure_name
+```
+
+## `cure date`
 Display date, time and Precure related events.
+
+```
+cure date [OPTIONS] [+FORMAT]
+```
 
 ```sh
 $ cure date
 2016-06-17 21:28:42 魔法つかいプリキュア！放映期間
 ```
 
-* %Y : Year
-* %m : Month 01 - 12
-* %d : Date 01 - 31
-* @P : Precure related events.
-* And other general date formats are usable.
+### Output format
 
-#### Options
+| Format specifier | Description             | Example                        |
+| ---              | ---                     | ---                            |
+| %Y               | Year                    | 2016                           |
+| %m               | Month                   | 12                             |
+| %d               | Date                    | 31                             |
+| @P               | Precure related events. | 魔法つかいプリキュア！放映期間 |
+
+And other general date formats are usable.
+
+### Options
 
 | Option | Description                                           |
 | ------ | ---------                                             |
 | -d     | cure date -d STRING: display time described by STRING |
-
 
 ```sh
 $ cure date -d '3 years ago' '+%Y/%m @P'
 2013/06 ドキドキ！プリキュア放映期間
 ```
 
-
-### cure echo
+## `cure echo`
 Print messages of Precure.
+
+```
+cure echo [OPTIONS] PATTERN
+```
 
 ```sh
 $ cure echo
 みんなの思いを守るために
 心をひとつに！
 思いよ届け！キュアエコー！
+
+$ cure echo -p happy
+(レディ？)
+プリキュア・スマイルチャージ！
+(ゴー！ゴー！レッツ・ゴー！ハッピー！！)
+キラキラ輝く未来の光！ キュアハッピー！
+5つの光が導く未来！
+輝け！スマイルプリキュア！
 ```
 
-### cure girls
-Print girls' name
+### Options
+
+| Option | Description                        |
+| ------ | -----------                        |
+| -a     | Print attack message.              |
+| -q     | Print messages immediately.        |
+| -p     | Print the given PRECURE's message. |
+
+
+## `cure girls`
+Print girls' name.
 
 ```sh
 $ cure girls
@@ -75,16 +118,23 @@ $ cure girls
 ...
 ```
 
-### cure grep
+## `cure grep`
 Print lines matching a pattern.
+
+```
+cure grep [OPTIONS] PATTERN
+```
 
 ```sh
 $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | cure grep
  キュアブラック
  キュアホワイト
+
+$ echo "こんにちは、 私はキュアレモネードです。" | cure grep '私は[:precure_name:]です。'
+こんにちは、 私はキュアレモネードです。
 ```
 
-#### Options
+### Options
 
 | Option | Description                                                                                         |
 | ------ | -----------                                                                                         |
@@ -92,7 +142,7 @@ $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | 
 | -o     | Print only the matched (non-empty) parts of a matching line, with each such part on a separate out. |
 
 
-#### Folloing "Precure bracket expression" are available.
+### Folloing "Precure bracket expression"can be used.
 
 | Expression       | Description                       |
 | ----------       | --------------                    |
@@ -103,12 +153,7 @@ $ echo キュア{レッド,ピンク,ブラック,ブルー,ホワイト}"\n" | 
 | [:precure_name:] | Precure name.                     |
 
 
-```sh
-$ cat txt | cure grep '私は[:precure_name:]です。'
-こんにちは、 私はキュアレモネードです。
-```
-
-### cure tr
+## `cure tr`
 Translate Precure related parameters.
 
 ```sh
@@ -116,7 +161,7 @@ $ echo 相田マナ | cure tr '[:human_name:]' '[:cast_name:]'
 生天目仁美
 ```
 
-#### Folloing "Precure bracket expression" are available.
+### Folloing "Precure bracket expression" are available.
 
 | Expression       | Description                       |
 | ----------       | --------------                    |
@@ -127,15 +172,15 @@ $ echo 相田マナ | cure tr '[:human_name:]' '[:cast_name:]'
 | [:precure_name:] | Precure name.                     |
 
 
-### cure transform
-Replace human_name to precure_name
+## `cure transform`
+Change human_name to precure_name
 
 ```sh
 $ echo '私の名前は十六夜リコです。' | cure transform
 私の名前はキュアマジカルです。
 ```
 
-### cure humanize
+## `cure humanize`
 Change precure_name to human_name.
 
 ```sh
@@ -143,7 +188,7 @@ $ echo キュア{ハート,エース} | cure humanize
 相田マナ 円亜久里
 ```
 
-### cure janken
+## `cure janken`
 Let's play "Pikarin Janken" !
 
 ```sh
@@ -167,8 +212,8 @@ Exit status is changed depending on the result.
 | You lose | 1           |
 | Draw     | 2           |
 
-### cure precures
-Print Precure names
+## `cure precures`
+Print Precure names.
 
 ```
 $ cure precures

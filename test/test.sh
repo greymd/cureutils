@@ -98,6 +98,8 @@ test_girls(){
     assertEquals 0 $?
     echo "${result}" | grep "十六夜リコ"
     assertEquals 0 $?
+    echo "${result}" | grep "花海ことは"
+    assertEquals 0 $?
     echo "${result}" | grep "坂上あゆみ"
     assertEquals 0 $?
 }
@@ -194,6 +196,8 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアマジカル"
     assertEquals 0 $?
+    echo "${result}" | grep "キュアフェリーチェ"
+    assertEquals 0 $?
     echo "${result}" | grep "キュアエコー"
     assertEquals 0 $?
 }
@@ -261,6 +265,10 @@ Yes！プリキュア5！
 大地を揺るがす乙女の怒り、受けてみなさい！
 プリキュア！エメラルド・ソーサー！"
   assertEquals "$expected" "$result"
+
+  echo "cure echo -- non-existing precure"
+  result=`bundle exec cure echo -qp grepon`
+  assertEquals "1" "$?"
 }
 
 test_grep() {
@@ -323,6 +331,10 @@ test_grep() {
 私はキュア"
   assertEquals "$expected" "$result"
 
+  echo "cure grep -- no matches"
+  echo 私はキュア{foo,bar,hoge}です。| xargs -n 1 > tmpfile
+  result=`cat tmpfile | bundle exec cure grep`
+  assertEquals "1" "$?"
 }
 
 test_humanize() {
@@ -412,6 +424,8 @@ test_humanize() {
   echo "${result}" | grep "朝日奈みらい"
   assertEquals 0 $?
   echo "${result}" | grep "十六夜リコ"
+  assertEquals 0 $?
+  echo "${result}" | grep "花海ことは"
   assertEquals 0 $?
   echo "${result}" | grep "坂上あゆみ"
   assertEquals 0 $?
@@ -508,6 +522,8 @@ test_transform() {
   echo "${result}" | grep "キュアミラクル"
   assertEquals 0 $?
   echo "${result}" | grep "キュアマジカル"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアフェリーチェ"
   assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
@@ -611,6 +627,8 @@ test_tr() {
   echo "${result}" | grep "高橋李依"
   assertEquals 0 $?
   echo "${result}" | grep "堀江由衣"
+  assertEquals 0 $?
+  echo "${result}" | grep "早見沙織"
   assertEquals 0 $?
   echo "${result}" | grep "能登麻美子"
   assertEquals 0 $?
