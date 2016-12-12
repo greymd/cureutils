@@ -41,15 +41,36 @@ module Cureutils
     end
 
     desc 'girls', "Print girls' name"
+    option 'verbose',   aliases: 'v',
+                        type: :boolean,
+                        desc: "Include particular girl's full name."
+    option 'movie',     aliases: 'm',
+                        type: :boolean,
+                        desc: 'Include who have only appeared in the movies.'
     def girls
-      Rubicure::Girl.config.map { |_k, v| v[:human_name] }.uniq.each do |v|
-        puts v
+      girls = Precure.all_stars
+      girls = girls << Cure.echo if options[:movie]
+      girls.map!(&:human_name)
+      if options[:verbose]
+        girls.each do |v|
+          puts v
+        end
+      else
+        girls.each do |v|
+          puts v.gsub(/\([^\)]+\)$/, '')
+        end
       end
     end
 
     desc 'precures', 'Print Precure names'
+    option 'movie',     aliases: 'm',
+                        type: :boolean,
+                        desc: 'Include who have only appeared in the movies.'
     def precures
-      Rubicure::Girl.config.map { |_k, v| v[:precure_name] }.uniq.each do |v|
+      cures = Precure.all_stars
+      cures = cures << Cure.echo if options[:movie]
+      cures.map!(&:precure_name)
+      cures.each do |v|
         puts v
       end
     end
