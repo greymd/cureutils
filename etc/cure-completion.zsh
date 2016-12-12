@@ -4,6 +4,7 @@
 
 # cure CMD
 subcommands=(
+	"version: Output the version number."
 	"help: Output the usage and exit."
 	"date: Display date, time and Precure related events."
 	"echo: Print messages of Precure."
@@ -18,48 +19,49 @@ subcommands=(
 
 # cure precures | cure tr [:precure_name:] [:girl_name:] | grep '[[:alnum:]]' | sort | uniq | sed 's/^cure_//'
 precure_girl_names=(
-	'ace'
-	'aqua'
-	'beat'
-	'beauty'
-	'berry'
-	'black'
-	'bloom'
-	'blossom'
-	'diamond'
-	'dream'
-	'echo'
-	'egret'
-	'flora'
-	'fortune'
-	'happy'
-	'heart'
-	'honey'
-	'lemonade'
-	'lovely'
-	'magical'
-	'march'
-	'marine'
-	'melody'
-	'mermaid'
-	'mint'
-	'miracle'
-	'moonlight'
-	'muse'
-	'passion'
-	'peace'
-	'peach'
-	'pine'
-	'princess'
-	'rhythm'
-	'rosetta'
-	'rouge'
-	'scarlet'
-	'sunny'
-	'sunshine'
-	'sword'
-	'twinkle'
-	'white'
+	'cure_ace'
+	'cure_aqua'
+	'cure_beat'
+	'cure_beauty'
+	'cure_berry'
+	'cure_black'
+	'cure_bloom'
+	'cure_blossom'
+	'cure_diamond'
+	'cure_dream'
+	'cure_echo'
+	'cure_egret'
+	'cure_felice'
+	'cure_flora'
+	'cure_fortune'
+	'cure_happy'
+	'cure_heart'
+	'cure_honey'
+	'cure_lemonade'
+	'cure_lovely'
+	'cure_magical'
+	'cure_march'
+	'cure_marine'
+	'cure_melody'
+	'cure_mermaid'
+	'cure_mint'
+	'cure_miracle'
+	'cure_moonlight'
+	'cure_muse'
+	'cure_passion'
+	'cure_peace'
+	'cure_peach'
+	'cure_pine'
+	'cure_princess'
+	'cure_rhythm'
+	'cure_rosetta'
+	'cure_rouge'
+	'cure_scarlet'
+	'cure_sunny'
+	'cure_sunshine'
+	'cure_sword'
+	'cure_twinkle'
+	'cure_white'
 	'milky_rose'
 	'shiny_luminous'
 )
@@ -110,6 +112,23 @@ function _cure-date () {
 	fi
 	if (( CURRENT==5 )) ; then
 		shift args
+		_describe -t args 'args' args
+	fi
+}
+
+function _cure-precures () {
+	local -a args
+	if (( CURRENT>=3 )) ; then
+		echo $words | grep -w -- '-m' 1> /dev/null || args=($args '-m:Include who have only appeared in the movies.')
+		_describe -t args 'args' args
+	fi
+}
+
+function _cure-girls () {
+	local -a args
+	if (( CURRENT>=3 )) ; then
+		echo $words | grep -w -- '-v' 1> /dev/null || args=($args "-v:Include particular girl's full name.")
+		echo $words | grep -w -- '-m' 1> /dev/null || args=($args '-m:Include who have only appeared in the movies.')
 		_describe -t args 'args' args
 	fi
 }

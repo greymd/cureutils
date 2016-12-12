@@ -1,4 +1,13 @@
 #!/usr/bin/env ruby
-require "cureutils"
 
-Cureutils::CLI.start
+# Trap intrrupts to quit cleanly.
+# Refer to https://twitter.com/mitchellh/status/283014103189053442
+Signal.trap('INT') { abort }
+
+require 'cureutils'
+
+begin
+  Cureutils::CLI.start
+rescue Interrupt
+  abort('Interrupted...')
+end

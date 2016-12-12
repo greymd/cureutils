@@ -10,6 +10,12 @@ tearDown(){
   [ -e tmpfile ] && rm tmpfile
 }
 
+test_version(){
+    result=`bundle exec cure version`
+    echo "${result}" | grep -E '^Cureutils [\.0-9]+$'
+    assertEquals 0 $?
+}
+
 test_girls(){
     result=`bundle exec cure girls`
     echo "${result}" | grep "美墨なぎさ"
@@ -100,8 +106,8 @@ test_girls(){
     assertEquals 0 $?
     echo "${result}" | grep "花海ことは"
     assertEquals 0 $?
-    echo "${result}" | grep "坂上あゆみ"
-    assertEquals 0 $?
+    # echo "${result}" | grep "坂上あゆみ"
+    # assertEquals 0 $?
 }
 
 test_precures () {
@@ -116,10 +122,10 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアイーグレット"
     assertEquals 0 $?
-    echo "${result}" | grep "キュアブライト"
-    assertEquals 0 $?
-    echo "${result}" | grep "キュアウィンディ"
-    assertEquals 0 $?
+    # echo "${result}" | grep "キュアブライト"
+    # assertEquals 0 $?
+    # echo "${result}" | grep "キュアウィンディ"
+    # assertEquals 0 $?
     echo "${result}" | grep "キュアドリーム"
     assertEquals 0 $?
     echo "${result}" | grep "キュアルージュ"
@@ -198,8 +204,8 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアフェリーチェ"
     assertEquals 0 $?
-    echo "${result}" | grep "キュアエコー"
-    assertEquals 0 $?
+    # echo "${result}" | grep "キュアエコー"
+    # assertEquals 0 $?
 }
 
 test_date() {
@@ -338,7 +344,7 @@ test_grep() {
 }
 
 test_humanize() {
-  result=`bundle exec cure precures | bundle exec cure humanize`
+  result=`bundle exec cure precures -m | bundle exec cure humanize`
   echo "${result}" | grep "美墨なぎさ"
   assertEquals 0 $?
   echo "${result}" | grep "雪城ほのか"
@@ -432,7 +438,7 @@ test_humanize() {
 }
 
 test_transform() {
-  result=`bundle exec cure girls | bundle exec cure transform`
+  result=`bundle exec cure girls -m | bundle exec cure transform`
   echo "${result}" | grep "キュアブラック"
   assertEquals 0 $?
   echo "${result}" | grep "キュアホワイト"
@@ -443,10 +449,6 @@ test_transform() {
   assertEquals 0 $?
   echo "${result}" | grep "キュアイーグレット"
   assertEquals 0 $?
-#   echo "${result}" | grep "キュアブライト"
-#   assertEquals 0 $?
-#   echo "${result}" | grep "キュアウィンディ"
-#   assertEquals 0 $?
   echo "${result}" | grep "キュアドリーム"
   assertEquals 0 $?
   echo "${result}" | grep "キュアルージュ"
@@ -541,7 +543,7 @@ test_janken() {
 }
 
 test_tr() {
-  result=`bundle exec cure girls | bundle exec cure tr '[:human_name:]' '[:cast_name:]'`
+  result=`bundle exec cure girls -m | bundle exec cure tr '[:human_name:]' '[:cast_name:]'`
   echo "${result}" | grep "本名陽子"
   assertEquals 0 $?
   echo "${result}" | grep "ゆかな"
