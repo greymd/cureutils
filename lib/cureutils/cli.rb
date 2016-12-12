@@ -24,7 +24,12 @@ module Cureutils
       end
     end
 
-    desc 'transform', 'Change human_name to precure_name'
+    desc 'version', 'Output the version number.'
+    def version
+      puts "#{Cureutils.name} #{Cureutils::Version}"
+    end
+
+    desc 'transform', 'Change human_name to precure_name.'
     def transform
       manager = CureTranslateManager.new
       manager.translate_from_to('[:human_name:]', '[:precure_name:]')
@@ -40,7 +45,7 @@ module Cureutils
       exit(manager.print_results)
     end
 
-    desc 'girls', "Print girls' name"
+    desc 'girls [OPTIONS]', "Print girls' name."
     option 'verbose',   aliases: 'v',
                         type: :boolean,
                         desc: "Include particular girl's full name."
@@ -62,7 +67,7 @@ module Cureutils
       end
     end
 
-    desc 'precures', 'Print Precure names'
+    desc 'precures [OPTIONS]', 'Print Precure names.'
     option 'movie',     aliases: 'm',
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
