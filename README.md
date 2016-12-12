@@ -25,14 +25,15 @@ $ cure help
 Commands:
   cure date [OPTIONS] [+FORMAT]  # Display date, time and Precure related events.
   cure echo [OPTIONS] PATTERN    # Print messages of Precure.
-  cure girls                     # Print girls' name
+  cure girls [OPTIONS]           # Print girls' name.
   cure grep [OPTIONS] PATTERN    # Print lines matching a pattern.
   cure help [COMMAND]            # Describe available commands or one specific command
   cure humanize                  # Change precure_name to human_name.
   cure janken                    # Let's play "Pikarin Janken" !
-  cure precures                  # Print Precure names
+  cure precures [OPTIONS]        # Print Precure names.
   cure tr PATTERN REPLACE        # Translate Precure related parameters.
-  cure transform                 # Change human_name to precure_name
+  cure transform                 # Change human_name to precure_name.
+  cure version                   # Output the version number.
 ```
 
 ## `cure date`
@@ -117,6 +118,13 @@ $ cure girls
 水無月かれん
 ...
 ```
+
+| Option | Description                                   |
+| ------ | -----------                                   |
+| -v     | Include particular girl's full name.          |
+| -m     | Include who have only appeared in the movies. |
+
+
 
 ## `cure grep`
 Print lines matching a pattern.
@@ -230,10 +238,17 @@ $ cure precures
 ...
 ```
 
+| Option | Description                                   |
+| ------ | -----------                                   |
+| -m     | Include who have only appeared in the movies. |
+
 ## Zsh completion
 
-[etc/cure-completion.zsh](etc/cure-completion.zsh) is useful if you are using Zsh.
-
+[zsh-completion/_cure](zsh-completion/_cure) is the file for `cure` command completion.
+With [zplug](https://github.com/zplug/zplug), it can be installed like this.
+```sh
+zplug "greymd/cureutils", use:cureutils.plugin.zsh
+```
 
 ## Contributing
 
