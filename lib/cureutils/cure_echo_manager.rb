@@ -45,11 +45,12 @@ class CureEchoManager
     Rubicure::Girl.sleep_sec = 0 if flag
   end
 
-  def style(style = nil)
-    @style_priority.unshift(style) unless style
+  def style(style)
+    @style_priority << style.to_sym if style
   end
 
   def print_results
+    p @style_priority
     return 1 unless existing_precure?
     precure = Cure.send(@cure_name.to_sym)
     if @message_mode == EchoMode::TRANSFORM
