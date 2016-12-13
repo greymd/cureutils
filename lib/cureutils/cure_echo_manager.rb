@@ -50,7 +50,6 @@ class CureEchoManager
   end
 
   def print_results
-    p @style_priority
     return 1 unless existing_precure?
     precure = Cure.send(@cure_name.to_sym)
     if @message_mode == EchoMode::TRANSFORM
