@@ -121,7 +121,7 @@ module Cureutils
                         desc: "Print the given PRECURE's message."
     option 'style',     aliases: 's',
                         type: :string,
-                        desc: 'Choose style of the costume.'
+                        desc: 'Choose style of the transformation.'
     def echo
       manager = CureEchoManager.new
       manager.precure(options[:precure])
