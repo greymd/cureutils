@@ -13,6 +13,7 @@ class CureEchoManager
     @err = $stderr
     @cure_name = 'echo'
     @message_mode = EchoMode::TRANSFORM
+    @style_priority = []
   end
 
   def source_output(source = $stdout)
@@ -44,18 +45,36 @@ class CureEchoManager
     Rubicure::Girl.sleep_sec = 0 if flag
   end
 
+  def style(style)
+    @style_priority << style.to_sym if style
+  end
+
   def print_results
     return 1 unless existing_precure?
+    precure = Cure.send(@cure_name.to_sym)
     if @message_mode == EchoMode::TRANSFORM
-      Cure.send(@cure_name.to_sym).transform!
+      precure = original_transform(precure)
     elsif @message_mode == EchoMode::ATTACK
-      Cure.send(@cure_name.to_sym).transform!
-      Cure.send(@cure_name.to_sym).attack!
+      precure = original_transform(precure)
+      precure.attack!
     end
     0
   end
 
   private
+
+  def original_transform(precure)
+    return precure.transform! unless precure.respond_to?(:transform_styles)
+    chosen_style = @style_priority.find do |s|
+      precure.transform_styles.include?(s)
+    end
+    if chosen_style
+      precure.transform! chosen_style
+    else
+      default_style, _entity = precure.transform_styles.first
+      precure.transform! default_style
+    end
+  end
 
   def existing_precure?
     found_precure = Rubicure::Girl.config.find do |k, _v|

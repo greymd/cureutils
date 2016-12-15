@@ -66,6 +66,15 @@ precure_girl_names=(
 	'shiny_luminous'
 )
 
+# ruby -r rubicure -e 'cures = [Cure.magical, Cure.miracle, Cure.felice]; cures.map{|c| c.transform_styles.map{|k, _v| k}}.uniq.each{|v| puts v}'
+transform_styles=(
+	'diamond'
+	'ruby'
+	'sapphire'
+	'topaz'
+	'emerald'
+)
+
 function _cure-grep () {
 	local -a args
 	if (( CURRENT>=3 )) ;then
@@ -91,11 +100,14 @@ function _cure-echo () {
 	local -a args
 	if [[ ('--precure' == "${words[$CURRENT-1]}") || ('-p' == "${words[$CURRENT-1]}") ]] ; then
 		_describe -t precure_girl_names 'precure_girl_names' precure_girl_names
+	elif [[ ('--style' == "${words[$CURRENT-1]}") || ('-s' == "${words[$CURRENT-1]}") ]] ; then
+		_describe -t transform_styles 'transform_styles' transform_styles
 	elif (( CURRENT>=3 )) ; then
 		echo $words | grep -w -- '-p' 1> /dev/null || args=($args '-p:Print messages of given Prequre.')
 		echo $words | grep -w -- '-q' 1> /dev/null || args=($args '-q:Print messages immediately.')
 		echo $words | grep -w -- '-a' 1> /dev/null || args=($args '-a:Print attack messages.')
 		echo $words | grep -w -- '-t' 1> /dev/null || args=($args '-t:Print transform message.')
+		echo $words | grep -w -- '-s' 1> /dev/null || args=($args '-s:Choose style of the transformation.')
 		_describe -t args 'args' args
 	fi
 }

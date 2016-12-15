@@ -119,11 +119,15 @@ module Cureutils
     option 'precure',   aliases: 'p',
                         type: :string,
                         desc: "Print the given PRECURE's message."
+    option 'style',     aliases: 's',
+                        type: :string,
+                        desc: 'Choose style of the transformation.'
     def echo
       manager = CureEchoManager.new
       manager.precure(options[:precure])
       manager.msg_attack(options[:attack])
       manager.nosleep(options[:quick])
+      manager.style(options[:style])
       exit(manager.print_results)
     end
 
