@@ -272,6 +272,58 @@ Yes！プリキュア5！
 プリキュア！エメラルド・ソーサー！"
   assertEquals "$expected" "$result"
 
+  echo "cure echo -- Maho girls precure"
+  result=`bundle exec cure echo -qp magical`
+  expected="キュアップ・ラパパ！　ダイヤ！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの魔法！キュアマジカル！
+魔法つかいプリキュア！！"
+  assertEquals "$expected" "$result"
+
+  echo "cure echo -- with style option(ruby)"
+  result=`bundle exec cure echo -qp magical -s ruby`
+  expected="キュアップ・ラパパ！　ルビー！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの魔法！キュアマジカル！
+魔法つかいプリキュア！！"
+  assertEquals "$expected" "$result"
+
+  echo "cure echo -- with style option(diamond)"
+  result=`bundle exec cure echo -qp magical -s diamond`
+  expected="キュアップ・ラパパ！　ダイヤ！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの魔法！キュアマジカル！
+魔法つかいプリキュア！！"
+  assertEquals "$expected" "$result"
+
+  result=`bundle exec cure echo -qap cure_miracle -s topaz`
+  expected="キュアップ・ラパパ！　トパーズ！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの奇跡！キュアミラクル！
+魔法つかいプリキュア！！
+リンクルステッキ！
+トパーズ！金色の希望よ私達の手に！
+フルフルリンクル！
+プリキュア・トパーズ・エスペランサ！"
+  assertEquals "$expected" "$result"
+
+  result=`bundle exec cure echo -qp magical -s sapphire`
+  expected="キュアップ・ラパパ！　サファイア！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの魔法！キュアマジカル！
+魔法つかいプリキュア！！"
+  assertEquals "$expected" "$result"
+
+  result=`bundle exec cure echo -qap cure_felice -s emerald`
+  expected="キュアップ・ラパパ！エメラルド！
+フェリーチェ・ファンファン・フラワーレ！
+あまねく生命に祝福を！キュアフェリーチェ！
+フラワーエコーワンド！
+エメラルド！
+キュアー・アップ！
+プリキュア！エメラルド・リンカネーション！"
+  assertEquals "$expected" "$result"
+
   echo "cure echo -- non-existing precure"
   result=`bundle exec cure echo -qp grepon`
   assertEquals "1" "$?"
