@@ -259,8 +259,15 @@ $ cure precures
 
 [zsh-completion/_cure](zsh-completion/_cure) is the file for `cure` command completion.
 With [zplug](https://github.com/zplug/zplug), it can be installed like this.
+
 ```sh
 zplug "greymd/cureutils", use:cureutils.plugin.zsh
+```
+
+And update like this.
+
+```sh
+$ zplug update greymd/cureutils
 ```
 
 ## Contributing
