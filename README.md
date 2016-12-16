@@ -11,7 +11,12 @@ Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
 
 Install:
 
-    $ gem install cureutils
+```
+$ gem install cureutils
+
+# for ruby 2.0, 2.1, 2.2
+$ gem install 'backport_dig'
+```
 
 
 After that, `cure` command is available.
@@ -90,15 +95,23 @@ $ cure echo -p happy
 キラキラ輝く未来の光！ キュアハッピー！
 5つの光が導く未来！
 輝け！スマイルプリキュア！
+
+# Choose style for MAHO GIRLS PRECURE!
+$ cure echo -p cure_magical -s ruby
+キュアップ・ラパパ！　ルビー！
+ミラクル・マジカル・ジュエリーレ！
+ふたりの魔法！キュアマジカル！
+魔法つかいプリキュア！！
 ```
 
 ### Options
 
-| Option | Description                        |
-| ------ | -----------                        |
-| -a     | Print attack message.              |
-| -q     | Print messages immediately.        |
-| -p     | Print the given PRECURE's message. |
+| Option | Description                         |
+| ------ | -----------                         |
+| -a     | Print attack message.               |
+| -q     | Print messages immediately.         |
+| -p     | Print the given PRECURE's message.  |
+| -s     | Choose style of the transformation. |
 
 
 ## `cure girls`
