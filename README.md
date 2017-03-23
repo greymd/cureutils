@@ -134,7 +134,7 @@ $ cure girls
 
 | Option | Description                                   |
 | ------ | -----------                                   |
-| -v     | Include particular girl's full name.          |
+| -f     | Show girl's full name if it exists.           |
 | -m     | Include who have only appeared in the movies. |
 
 
@@ -261,7 +261,7 @@ $ cure precures
 With [zplug](https://github.com/zplug/zplug), it can be installed like this.
 
 ```sh
-zplug "greymd/cureutils", use:cureutils.plugin.zsh
+zplug "greymd/cureutils"
 ```
 
 And update like this.
@@ -269,6 +269,8 @@ And update like this.
 ```sh
 $ zplug update greymd/cureutils
 ```
+
+![completion_image](./img/cure_echo_demo.gif)
 
 ## Contributing
 
