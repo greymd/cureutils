@@ -234,10 +234,6 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアイーグレット"
     assertEquals 0 $?
-    # echo "${result}" | grep "キュアブライト"
-    # assertEquals 0 $?
-    # echo "${result}" | grep "キュアウィンディ"
-    # assertEquals 0 $?
     echo "${result}" | grep "キュアドリーム"
     assertEquals 0 $?
     echo "${result}" | grep "キュアルージュ"
@@ -316,8 +312,16 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアフェリーチェ"
     assertEquals 0 $?
-    # echo "${result}" | grep "キュアエコー"
-    # assertEquals 0 $?
+    echo "${result}" | grep "キュアホイップ"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアカスタード"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアジェラート"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアマカロン"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアショコラ"
+    assertEquals 0 $?
 }
 
 test_date() {
