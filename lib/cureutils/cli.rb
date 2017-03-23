@@ -46,9 +46,10 @@ module Cureutils
     end
 
     desc 'girls [OPTIONS]', "Print girls' name."
-    option 'verbose',   aliases: 'v',
+    # In order to keep backward compatibility, v option is still remaining.
+    option 'full-name', aliases: 'f',
                         type: :boolean,
-                        desc: "Include particular girl's full name."
+                        desc: "Show particular girl's full name."
     option 'movie',     aliases: 'm',
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
