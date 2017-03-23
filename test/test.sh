@@ -481,6 +481,10 @@ test_grep() {
 キュアブラック"
   assertEquals "$expected" "$result"
 
+  echo "cure grep --  No such file error."
+  bundle exec cure grep '[:precure_name:]' nonExistTmpfile
+  assertEquals 2 "$?"
+
   echo "cure grep -- -E option with file"
   echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
   result=`bundle exec cure grep '^私は[:precure_name:]です' tmpfile`
