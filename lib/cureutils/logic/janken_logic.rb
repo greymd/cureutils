@@ -2,7 +2,7 @@
 #
 # Class of Pikarin Janken
 #
-class CureJankenManager
+class JankenLogic
   def initialize
     # Set the sleep time 0
     Rubicure::Girl.sleep_sec = 0

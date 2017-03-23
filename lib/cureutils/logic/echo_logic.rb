@@ -1,7 +1,7 @@
 # coding: utf-8
 
 # Singleton class for cure echo
-class CureEchoManager
+class EchoLogic
   module EchoMode
     TRANSFORM = 1
     ATTACK = 2

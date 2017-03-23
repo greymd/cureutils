@@ -1,11 +1,11 @@
 # coding: utf-8
 require 'cureutils/version'
 require 'cureutils/common'
-require 'cureutils/cure_janken_manager'
-require 'cureutils/cure_date_manager'
-require 'cureutils/cure_grep_manager'
-require 'cureutils/cure_echo_manager'
-require 'cureutils/cure_translate_manager'
+require 'cureutils/logic/janken_logic'
+require 'cureutils/logic/date_logic'
+require 'cureutils/logic/grep_logic'
+require 'cureutils/logic/echo_logic'
+require 'cureutils/logic/translate_logic'
 require 'active_support'
 require 'active_support/time'
 require 'time'
@@ -31,7 +31,7 @@ module Cureutils
 
     desc 'transform', 'Change human_name to precure_name.'
     def transform
-      manager = CureTranslateManager.new
+      manager = TranslateLogic.new
       manager.translate_from_to('[:human_name:]', '[:precure_name:]')
       manager.in = $stdin
       exit(manager.print_results)
@@ -39,7 +39,7 @@ module Cureutils
 
     desc 'humanize', 'Change precure_name to human_name.'
     def humanize
-      manager = CureTranslateManager.new
+      manager = TranslateLogic.new
       manager.translate_from_to('[:precure_name:]', '[:human_name:]')
       manager.in = $stdin
       exit(manager.print_results)
@@ -88,7 +88,7 @@ module Cureutils
                             type: :boolean,
                             desc: 'Print only the matched parts.'
     def grep(default_pat = '[:precure_name:]', filename = nil)
-      manager = CureGrepManager.new
+      manager = GrepLogic.new
       manager.source_input(filename)
       manager.pattern(default_pat.clone, options['extended-regexp'.to_sym])
       # Check the file discriptor to check the pipe exists or not.
@@ -100,7 +100,7 @@ module Cureutils
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
-      manager = CureTranslateManager.new
+      manager = TranslateLogic.new
       manager.in = $stdin
       manager.translate_from_to(pat_from, pat_to)
       exit(manager.print_results)
@@ -123,7 +123,7 @@ module Cureutils
                         type: :string,
                         desc: 'Choose style of the transformation.'
     def echo
-      manager = CureEchoManager.new
+      manager = EchoLogic.new
       manager.precure(options[:precure])
       manager.msg_attack(options[:attack])
       manager.nosleep(options[:quick])
@@ -137,7 +137,7 @@ module Cureutils
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
-      manager = CureDateManager.new
+      manager = DateLogic.new
       manager.datetime(options[:date])
       manager.format = fmt
       exit(manager.print_results)
@@ -145,7 +145,7 @@ module Cureutils
 
     desc 'janken', %q(Let's play "Pikarin Janken" !)
     def janken
-      manager = CureJankenManager.new
+      manager = JankenLogic.new
       exit(manager.janken.to_i)
     end
   end

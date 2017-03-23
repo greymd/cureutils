@@ -4,7 +4,7 @@ require 'date'
 #
 # Date class supports the precure format
 #
-class CureDateManager
+class DateLogic
   def initialize
     hashize_cure_date unless @birth_date || @created_date
     hashize_movie_date unless @movie_started_date

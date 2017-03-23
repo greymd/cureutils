@@ -3,7 +3,7 @@ require 'colorize'
 
 # Singleton class for cure grep
 # Managing the method for matching and printing.
-class CureGrepManager
+class GrepLogic
   module ColorMode
     NONE = :to_s
     RED = :red

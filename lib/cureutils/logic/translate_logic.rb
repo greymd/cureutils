@@ -2,7 +2,7 @@
 #
 # Class for managing cure tr (translate).
 #
-class CureTranslateManager
+class TranslateLogic
   def initialize
     @translate_from = :human_name
     @translate_to = :precure_name
