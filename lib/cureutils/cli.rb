@@ -53,16 +53,15 @@ module Cureutils
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
     def girls
-      girls = Precure.all_stars
-      girls = girls << Cure.echo if options[:movie]
-      girls.map!(&:human_name)
-      if options[:verbose]
+      girls = Precure.all_girls
+      girls.delete(Cure.echo) unless options[:movie]
+      if options['full-name'.to_sym]
         girls.each do |v|
-          puts v
+          puts v.full_name
         end
       else
         girls.each do |v|
-          puts v.gsub(/\([^\)]+\)$/, '')
+          puts v.human_name
         end
       end
     end
@@ -72,8 +71,8 @@ module Cureutils
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
     def precures
-      cures = Precure.all_stars
-      cures = cures << Cure.echo if options[:movie]
+      cures = Precure.all_girls
+      cures.delete(Cure.echo) unless options[:movie]
       cures.map!(&:precure_name)
       cures.each do |v|
         puts v
