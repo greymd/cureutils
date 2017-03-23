@@ -1,4 +1,26 @@
 language: ruby
+
 rvm:
-  - 2.2.0
-before_install: gem install bundler -v 1.11.2
+- 2.2.2
+- 2.3.3
+- 2.4.0
+- ruby-head
+
+before_install:
+- gem update --system --no-document
+- gem install bundler -v 1.11.2
+- bundle install
+
+branches:
+  only:
+  - master
+  - develop-1.0.0
+
+matrix:
+  allow_failures:
+  - rvm: ruby-head
+
+sudo: false
+
+script:
+- bash test/test.sh
