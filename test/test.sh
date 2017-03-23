@@ -106,8 +106,120 @@ test_girls(){
     assertEquals 0 $?
     echo "${result}" | grep "花海ことは"
     assertEquals 0 $?
-    # echo "${result}" | grep "坂上あゆみ"
-    # assertEquals 0 $?
+    echo "${result}" | grep "宇佐美いちか"
+    assertEquals 0 $?
+    echo "${result}" | grep "有栖川ひまり"
+    assertEquals 0 $?
+    echo "${result}" | grep "立神あおい"
+    assertEquals 0 $?
+    echo "${result}" | grep "琴爪ゆかり"
+    assertEquals 0 $?
+    echo "${result}" | grep "剣城あきら"
+    assertEquals 0 $?
+}
+
+test_girls_full(){
+    result=`bundle exec cure girls -fm`
+    echo "${result}" | grep "美墨なぎさ"
+    assertEquals 0 $?
+    echo "${result}" | grep "雪城ほのか"
+    assertEquals 0 $?
+    echo "${result}" | grep "九条ひかり"
+    assertEquals 0 $?
+    echo "${result}" | grep "日向咲"
+    assertEquals 0 $?
+    echo "${result}" | grep "美翔舞"
+    assertEquals 0 $?
+    echo "${result}" | grep "夢原のぞみ"
+    assertEquals 0 $?
+    echo "${result}" | grep "夏木りん"
+    assertEquals 0 $?
+    echo "${result}" | grep "春日野うらら"
+    assertEquals 0 $?
+    echo "${result}" | grep "秋元こまち"
+    assertEquals 0 $?
+    echo "${result}" | grep "水無月かれん"
+    assertEquals 0 $?
+    echo "${result}" | grep "美々野くるみ"
+    assertEquals 0 $?
+    echo "${result}" | grep "桃園ラブ"
+    assertEquals 0 $?
+    echo "${result}" | grep "蒼乃美希"
+    assertEquals 0 $?
+    echo "${result}" | grep "山吹祈里"
+    assertEquals 0 $?
+    echo "${result}" | grep "東せつな"
+    assertEquals 0 $?
+    echo "${result}" | grep "花咲つぼみ"
+    assertEquals 0 $?
+    echo "${result}" | grep "来海えりか"
+    assertEquals 0 $?
+    echo "${result}" | grep "明堂院いつき"
+    assertEquals 0 $?
+    echo "${result}" | grep "月影ゆり"
+    assertEquals 0 $?
+    echo "${result}" | grep "北条響"
+    assertEquals 0 $?
+    echo "${result}" | grep "南野奏"
+    assertEquals 0 $?
+    echo "${result}" | grep "黒川エレン"
+    assertEquals 0 $?
+    echo "${result}" | grep "調辺アコ"
+    assertEquals 0 $?
+    echo "${result}" | grep "星空みゆき"
+    assertEquals 0 $?
+    echo "${result}" | grep "日野あかね"
+    assertEquals 0 $?
+    echo "${result}" | grep "黄瀬やよい"
+    assertEquals 0 $?
+    echo "${result}" | grep "緑川なお"
+    assertEquals 0 $?
+    echo "${result}" | grep "青木れいか"
+    assertEquals 0 $?
+    echo "${result}" | grep "相田マナ"
+    assertEquals 0 $?
+    echo "${result}" | grep "菱川六花"
+    assertEquals 0 $?
+    echo "${result}" | grep "四葉ありす"
+    assertEquals 0 $?
+    echo "${result}" | grep "剣崎真琴"
+    assertEquals 0 $?
+    echo "${result}" | grep "円亜久里"
+    assertEquals 0 $?
+    echo "${result}" | grep "愛乃めぐみ"
+    assertEquals 0 $?
+    echo "${result}" | grep "ヒメルダ・ウインドウ・キュアクイーン・オブ・ザ・ブルースカイ"
+    assertEquals 0 $?
+    echo "${result}" | grep "大森ゆうこ"
+    assertEquals 0 $?
+    echo "${result}" | grep "氷川いおな"
+    assertEquals 0 $?
+    echo "${result}" | grep "春野はるか"
+    assertEquals 0 $?
+    echo "${result}" | grep "海藤みなみ"
+    assertEquals 0 $?
+    echo "${result}" | grep "天ノ川きらら"
+    assertEquals 0 $?
+    echo "${result}" | grep "プリンセス・ホープ・ディライト・トワ"
+    assertEquals 0 $?
+    echo "${result}" | grep "朝日奈みらい"
+    assertEquals 0 $?
+    echo "${result}" | grep "十六夜リコ"
+    assertEquals 0 $?
+    echo "${result}" | grep "花海ことは"
+    assertEquals 0 $?
+    echo "${result}" | grep "宇佐美いちか"
+    assertEquals 0 $?
+    echo "${result}" | grep "有栖川ひまり"
+    assertEquals 0 $?
+    echo "${result}" | grep "立神あおい"
+    assertEquals 0 $?
+    echo "${result}" | grep "琴爪ゆかり"
+    assertEquals 0 $?
+    echo "${result}" | grep "剣城あきら"
+    assertEquals 0 $?
+    echo "${result}" | grep "坂上あゆみ"
+    assertEquals 0 $?
 }
 
 test_precures () {
@@ -485,6 +597,16 @@ test_humanize() {
   assertEquals 0 $?
   echo "${result}" | grep "花海ことは"
   assertEquals 0 $?
+  echo "${result}" | grep "宇佐美いちか"
+  assertEquals 0 $?
+  echo "${result}" | grep "有栖川ひまり"
+  assertEquals 0 $?
+  echo "${result}" | grep "立神あおい"
+  assertEquals 0 $?
+  echo "${result}" | grep "琴爪ゆかり"
+  assertEquals 0 $?
+  echo "${result}" | grep "剣城あきら"
+  assertEquals 0 $?
   echo "${result}" | grep "坂上あゆみ"
   assertEquals 0 $?
 }
@@ -578,6 +700,16 @@ test_transform() {
   echo "${result}" | grep "キュアマジカル"
   assertEquals 0 $?
   echo "${result}" | grep "キュアフェリーチェ"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアホイップ"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアカスタード"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアジェラート"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアマカロン"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアショコラ"
   assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
@@ -683,6 +815,16 @@ test_tr() {
   echo "${result}" | grep "堀江由衣"
   assertEquals 0 $?
   echo "${result}" | grep "早見沙織"
+  assertEquals 0 $?
+  echo "${result}" | grep "美山加恋"
+  assertEquals 0 $?
+  echo "${result}" | grep "福原遥"
+  assertEquals 0 $?
+  echo "${result}" | grep "村中知"
+  assertEquals 0 $?
+  echo "${result}" | grep "藤田咲"
+  assertEquals 0 $?
+  echo "${result}" | grep "森なな子"
   assertEquals 0 $?
   echo "${result}" | grep "能登麻美子"
   assertEquals 0 $?
