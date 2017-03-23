@@ -49,7 +49,7 @@ module Cureutils
     # In order to keep backward compatibility, v option is still remaining.
     option 'full-name', aliases: 'f',
                         type: :boolean,
-                        desc: "Show particular girl's full name."
+                        desc: "Show girl's full name if it exists."
     option 'movie',     aliases: 'm',
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
