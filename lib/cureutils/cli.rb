@@ -33,7 +33,7 @@ module Cureutils
     def transform
       logic = TranslateLogic.new
       logic.translate_from_to('[:human_name:]', '[:precure_name:]')
-      logic.source_input($stdin)
+      logic.in = $stdin
       exit(logic.print_results)
     end
 
@@ -41,7 +41,7 @@ module Cureutils
     def humanize
       logic = TranslateLogic.new
       logic.translate_from_to('[:precure_name:]', '[:human_name:]')
-      logic.source_input($stdin)
+      logic.in = $stdin
       exit(logic.print_results)
     end
 
@@ -101,7 +101,7 @@ module Cureutils
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
       logic = TranslateLogic.new
-      logic.source_input($stdin)
+      logic.in = $stdin
       logic.translate_from_to(pat_from, pat_to)
       exit(logic.print_results)
     end
@@ -133,7 +133,12 @@ module Cureutils
 
     desc 'date [OPTIONS] [+FORMAT]',
          'Display date, time and Precure related events.'
-    option 'date', aliases: 'd'
+    option 'date', aliases: 'd',
+                   type: :string,
+                   desc: '-d STRING: Display time described by STRING.'
+    # option 'file', aliases: 'f',
+    #                type: :string,
+    #                desc: '-f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')

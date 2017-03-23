@@ -11,6 +11,8 @@ class TranslateLogic < BaseLogic
     @translate_to = :precure_name
   end
 
+  attr_writer :in
+
   def translate_from_to(from, to)
     @translate_from = pregex2str(from).to_sym
     @translate_to = pregex2str(to).to_sym
@@ -36,7 +38,7 @@ class TranslateLogic < BaseLogic
       line.scan(/#{cure_pattern}/).each do |pat|
         updated_line.gsub!(/#{pat[0]}/, table[pat[0]])
       end
-      puts updated_line
+      @out.puts updated_line
     end
     0
   end

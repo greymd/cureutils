@@ -24,17 +24,6 @@ class GrepLogic < BaseLogic
     @str_color = (colorize ? ColorMode::RED : ColorMode::NONE)
   end
 
-  def source_input(source = nil)
-    if source.nil? || source.empty?
-      @in = $stdin
-    elsif source =~ /^-$/
-      # If the file name is "-", use STDIN.
-      @in = $stdin
-    else
-      file(source)
-    end
-  end
-
   def pattern(pat, is_exregex = false)
     if is_exregex
       @pattern = /#{pat}/
@@ -56,17 +45,5 @@ class GrepLogic < BaseLogic
       end
     end
     exit_status
-  end
-
-  private
-
-  def file(filename)
-    @in = File.open(filename)
-  rescue SystemCallError => e
-    @err.puts e.message.to_s
-    exit(1)
-  rescue IOError => e
-    @err.puts e.message.to_s
-    exit(1)
   end
 end

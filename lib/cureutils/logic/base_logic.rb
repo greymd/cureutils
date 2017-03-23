@@ -17,9 +17,27 @@ class BaseLogic
 
   def source_input(source = $stdin)
     @in = source
+    if source.nil? || source =~ /^-$/
+      # If the file name is "-", use STDIN.
+      @in = $stdin
+    else
+      file(source)
+    end
   end
 
   def source_err(source = $stderr)
     @err = source
+  end
+
+  private
+
+  def file(filename)
+    @in = File.open(filename)
+  rescue SystemCallError => e
+    @err.puts e.message.to_s
+    exit(2)
+  rescue IOError => e
+    @err.puts e.message.to_s
+    exit(2)
   end
 end
