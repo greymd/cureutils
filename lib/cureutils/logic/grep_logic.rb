@@ -1,18 +1,17 @@
 # coding: utf-8
+require 'cureutils/logic/base_logic'
 require 'colorize'
 
 # Singleton class for cure grep
 # Managing the method for matching and printing.
-class GrepLogic
+class GrepLogic < BaseLogic
   module ColorMode
     NONE = :to_s
     RED = :red
   end
 
   def initialize
-    @in = $stdin
-    @out = $stdout
-    @err = $stderr
+    super
     @match_method = 'match'
   end
 
@@ -23,10 +22,6 @@ class GrepLogic
 
   def option_colorize(colorize)
     @str_color = (colorize ? ColorMode::RED : ColorMode::NONE)
-  end
-
-  def source_output(source = $stdout)
-    @out = source
   end
 
   def source_input(source = nil)
@@ -68,8 +63,10 @@ class GrepLogic
   def file(filename)
     @in = File.open(filename)
   rescue SystemCallError => e
-    puts %(class=[#{e.class}] message=[#{e.message}])
+    @err.puts e.message.to_s
+    exit(1)
   rescue IOError => e
-    puts %(class=[#{e.class}] message=[#{e.message}])
+    @err.puts e.message.to_s
+    exit(1)
   end
 end

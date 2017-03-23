@@ -31,18 +31,18 @@ module Cureutils
 
     desc 'transform', 'Change human_name to precure_name.'
     def transform
-      manager = TranslateLogic.new
-      manager.translate_from_to('[:human_name:]', '[:precure_name:]')
-      manager.in = $stdin
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.translate_from_to('[:human_name:]', '[:precure_name:]')
+      logic.source_input($stdin)
+      exit(logic.print_results)
     end
 
     desc 'humanize', 'Change precure_name to human_name.'
     def humanize
-      manager = TranslateLogic.new
-      manager.translate_from_to('[:precure_name:]', '[:human_name:]')
-      manager.in = $stdin
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.translate_from_to('[:precure_name:]', '[:human_name:]')
+      logic.source_input($stdin)
+      exit(logic.print_results)
     end
 
     desc 'girls [OPTIONS]', "Print girls' name."
@@ -88,22 +88,22 @@ module Cureutils
                             type: :boolean,
                             desc: 'Print only the matched parts.'
     def grep(default_pat = '[:precure_name:]', filename = nil)
-      manager = GrepLogic.new
-      manager.source_input(filename)
-      manager.pattern(default_pat.clone, options['extended-regexp'.to_sym])
+      logic = GrepLogic.new
+      logic.source_input(filename)
+      logic.pattern(default_pat.clone, options['extended-regexp'.to_sym])
       # Check the file discriptor to check the pipe exists or not.
-      manager.option_colorize($stdout.isatty)
-      manager.option_only(options['only-matching'.to_sym])
+      logic.option_colorize($stdout.isatty)
+      logic.option_only(options['only-matching'.to_sym])
       # Print matched lines.
-      exit(manager.print_results)
+      exit(logic.print_results)
     end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
-      manager = TranslateLogic.new
-      manager.in = $stdin
-      manager.translate_from_to(pat_from, pat_to)
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.source_input($stdin)
+      logic.translate_from_to(pat_from, pat_to)
+      exit(logic.print_results)
     end
 
     desc 'echo [OPTIONS] PATTERN', 'Print messages of Precure.'
@@ -123,12 +123,12 @@ module Cureutils
                         type: :string,
                         desc: 'Choose style of the transformation.'
     def echo
-      manager = EchoLogic.new
-      manager.precure(options[:precure])
-      manager.msg_attack(options[:attack])
-      manager.nosleep(options[:quick])
-      manager.style(options[:style])
-      exit(manager.print_results)
+      logic = EchoLogic.new
+      logic.precure(options[:precure])
+      logic.msg_attack(options[:attack])
+      logic.nosleep(options[:quick])
+      logic.style(options[:style])
+      exit(logic.print_results)
     end
 
     desc 'date [OPTIONS] [+FORMAT]',
@@ -137,16 +137,16 @@ module Cureutils
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
-      manager = DateLogic.new
-      manager.datetime(options[:date])
-      manager.format = fmt
-      exit(manager.print_results)
+      logic = DateLogic.new
+      logic.datetime(options[:date])
+      logic.format = fmt
+      exit(logic.print_results)
     end
 
     desc 'janken', %q(Let's play "Pikarin Janken" !)
     def janken
-      manager = JankenLogic.new
-      exit(manager.janken.to_i)
+      logic = JankenLogic.new
+      exit(logic.janken.to_i)
     end
   end
 end

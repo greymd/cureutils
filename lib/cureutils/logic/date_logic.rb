@@ -1,20 +1,17 @@
 # coding: utf-8
+require 'cureutils/logic/base_logic'
 require 'date'
 
 #
 # Date class supports the precure format
 #
-class DateLogic
+class DateLogic < BaseLogic
   def initialize
+    super
     hashize_cure_date unless @birth_date || @created_date
     hashize_movie_date unless @movie_started_date
     @datetime = Time.now
     @format = '+%F %H:%M:%S @P'
-    @out = $stdout
-  end
-
-  def source_output(output = $stdout)
-    @out = output
   end
 
   def datetime(datetime_str)
@@ -59,7 +56,7 @@ class DateLogic
     if fmt =~ /^\+(.*)$/
       checked_fmt = Regexp.last_match(1)
     else
-      puts "cure date: invalid date format '#{fmt}'"
+      @err.puts "cure date: invalid date format '#{fmt}'"
       exit 1
     end
     # Find precure related events

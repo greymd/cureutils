@@ -1,16 +1,15 @@
 # coding: utf-8
+require 'cureutils/logic/base_logic'
+
 #
 # Class for managing cure tr (translate).
 #
-class TranslateLogic
+class TranslateLogic < BaseLogic
   def initialize
+    super
     @translate_from = :human_name
     @translate_to = :precure_name
-    @out = $stdout
-    @in = $stdin
   end
-
-  attr_writer :out, :in
 
   def translate_from_to(from, to)
     @translate_from = pregex2str(from).to_sym

@@ -1,9 +1,12 @@
 # coding: utf-8
+require 'cureutils/logic/base_logic'
+
 #
 # Class of Pikarin Janken
 #
-class JankenLogic
+class JankenLogic < BaseLogic
   def initialize
+    super
     # Set the sleep time 0
     Rubicure::Girl.sleep_sec = 0
     # 0: win, 1: lose, 2: aiko
@@ -15,14 +18,9 @@ class JankenLogic
     @te_idx = %w(グー チョキ パー グッチョッパー)
     @te_hash = Hash[[@te_idx, (0..3).map(&:to_s)].transpose]
     @buf = []
-    @out = $stdout
   end
 
   attr_writer :io
-
-  def source_output(output = $stdout)
-    @out = output
-  end
 
   def puts(input)
     @buf << input
@@ -43,7 +41,7 @@ class JankenLogic
   end
 
   def input_te
-    @out.print("1...グー, 2...チョキ, 3...パー : ")
+    @out.print('1...グー, 2...チョキ, 3...パー : ')
     # TODO: Check input and raise the error.
     player_te = $stdin.gets
     player_te.to_i - 1
