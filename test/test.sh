@@ -348,6 +348,27 @@ test_date() {
   expected_regex="$(perl -MPOSIX -e 'print POSIX::strftime "%Y@%m@%d", localtime(time - 86400 * 37);') ..:..:.. ?.*"
   echo "${result}" | grep -E "$expected_regex"
   assertEquals 0 $?
+
+  echo "cure date -- -d option and -f option"
+  echo 2010{01..12}{01..31} | xargs -n 1 | bundle exec cure date -d '2015-01-01' -f - +%F:@P
+  assertEquals 1 $?
+
+  echo "cure date -- Load file with -f option"
+  local _datefile="${SHUNIT_TMPDIR}/cure_date_test"
+  echo 2010{01..12}{01..31} | xargs -n 1 > "$_datefile"
+  result=`bundle exec cure date -f $_datefile`
+  assertEquals 365 "$(echo "${result}" | grep -c .)"
+
+  echo "cure date -- Load stdin with -f option"
+  # Any precure are not broadcasted within this term.
+  assertEquals "2011-01-31 
+2011-02-01 
+2011-02-02 
+2011-02-03 
+2011-02-04 
+2011-02-05 " "$(echo 2011{01..12}{01..31} | xargs -n 1 | bundle exec cure date -f - "+%F @P" | awk NF==1)"
+
+
 }
 
 test_echo() {

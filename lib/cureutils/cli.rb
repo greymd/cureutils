@@ -136,14 +136,15 @@ module Cureutils
     option 'date', aliases: 'd',
                    type: :string,
                    desc: '-d STRING: Display time described by STRING.'
-    # option 'file', aliases: 'f',
-    #                type: :string,
-    #                desc: '-f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
+    option 'file', aliases: 'f',
+                   type: :string,
+                   desc: '-f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
       logic = DateLogic.new
-      logic.datetime(options[:date])
+      logic.opt_date(options[:date])
+      logic.opt_file(options[:file])
       logic.format = fmt
       exit(logic.print_results)
     end

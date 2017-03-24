@@ -10,23 +10,55 @@ class DateLogic < BaseLogic
     super
     hashize_cure_date unless @birth_date || @created_date
     hashize_movie_date unless @movie_started_date
-    @datetime = Time.now
+    @in = []
+    @in << nil
+    @opt_date = false
+    @opt_file = false
     @format = '+%F %H:%M:%S @P'
   end
 
-  def datetime(datetime_str)
-    @datetime = datetime_str ? natural_lang2time(datetime_str) : Time.now
+  def opt_date(given_datetime)
+    return if given_datetime.nil?
+    @opt_date = true
+    @in = []
+    @in << given_datetime
+  end
+
+  def opt_file(filename)
+    return if filename.nil?
+    @opt_file = true
+    source_input(filename)
   end
 
   attr_writer :format
 
   def print_results
-    updated_fmt = update_fmt(@datetime, @format)
-    @out.puts @datetime.strftime(updated_fmt)
+    return 1 unless check_opts
+    @in.each do |line|
+      given_date = line ? natural_lang2time(line) : Time.now
+      updated_fmt = update_fmt(given_date, @format) if given_date
+      @out.puts given_date.strftime(updated_fmt) if updated_fmt
+    end
     0
   end
 
   private
+
+  def check_opts
+    # Either option must be true, but both must NOT be same.
+    return true unless @opt_date && @opt_file
+    @err.puts <<-EOS
+cure date: the options to specify dates for printing are mutually exclusive.
+    EOS
+    exit(1)
+  end
+
+  def validate_date_str(str)
+    Date.parse(str)
+  rescue ArgumentError => e
+    @err.puts "cure date: #{e.message} '#{str.chomp}'"
+    return false
+  end
 
   def natural_lang2time(time_str)
     updated_fmt = time_str.dup
@@ -38,14 +70,13 @@ class DateLogic < BaseLogic
       diff_value = Regexp.last_match(1).to_i
       unit = Regexp.last_match(2).to_sym
       minus_flg = Regexp.last_match(3)
-      if minus_flg.nil?
-        Time.now + diff_value.send(unit)
-      else
-        Time.now - diff_value.send(unit)
-      end
-    else
-      Time.parse(updated_fmt)
+      return Time.now + diff_value.send(unit) if minus_flg.nil?
+      return Time.now - diff_value.send(unit)
+    elsif validate_date_str(updated_fmt)
+      # Format like "yyyy-mm-dd", "yyyy/mm/dd" and "yyyymmdd"
+      return Time.parse(updated_fmt)
     end
+    false
   end
 
   def update_fmt(datetime, fmt)
@@ -119,6 +150,7 @@ class DateLogic < BaseLogic
   def hashize_cure_date
     @birth_date = {}
     @created_date = {}
+    # TODO: Use Precure.all_girls
     Rubicure::Girl.config.map do |_k, v|
       v[:birthday].nil? || @birth_date[v[:birthday]] = v
       v[:created_date].nil? || @created_date[v[:created_date]] = v
