@@ -8,8 +8,8 @@ require 'date'
 class DateLogic < BaseLogic
   def initialize
     super
-    hashize_cure_date unless @birth_date || @created_date
-    hashize_movie_date unless @movie_started_date
+    hashize_cure_date
+    hashize_movie_date
     @in = []
     @in << nil
     @opt_date = false
@@ -107,23 +107,22 @@ cure date: the options to specify dates for printing are mutually exclusive.
   end
 
   def birth_date?(date)
-    date_str = date.strftime('%m/%d')
-    result = @birth_date[date_str]
-    # format
-    result.nil? ? nil : "#{result[:human_name]}(#{result[:precure_name]})誕生日"
+    date_str = date.strftime('%-m/%-d')
+    result = @birth_date[date_str.to_sym]
+    "#{result[:human_name]}(#{result[:precure_name]})誕生日" unless result.nil?
   end
 
   def created_date?(date)
-    date_str = date.strftime('%m/%d')
-    result = @created_date[date_str]
-    # format
-    result.nil? ? nil : "#{result[:precure_name]}初登場日"
+    date_str = date.strftime('%Y-%m-%d')
+    result = @created_date[date_str.to_sym]
+    "#{result[:precure_name]}登場日" unless result.nil?
   end
 
   def movie_date?(date)
-    result = @created_date[date]
+    date_str = date.strftime('%Y-%m-%d')
+    result = @movie_started_date[date_str.to_sym]
     # format
-    result.nil? ? nil : "#{result[:title]}映画公開日"
+    "#{result[:title]}映画公開日" unless result.nil?
   end
 
   def series_between(date)
@@ -150,17 +149,21 @@ cure date: the options to specify dates for printing are mutually exclusive.
   def hashize_cure_date
     @birth_date = {}
     @created_date = {}
-    # TODO: Use Precure.all_girls
-    Rubicure::Girl.config.map do |_k, v|
-      v[:birthday].nil? || @birth_date[v[:birthday]] = v
-      v[:created_date].nil? || @created_date[v[:created_date]] = v
+    Precure.all_girls.each do |precure|
+      # TODO: Support duplicated birthday
+      birthday_key = precure.birthday.to_s.to_sym
+      @birth_date[birthday_key] = precure if precure.have_birthday?
+      # TODO: Support duplicated created_date
+      created_date_key = precure.created_date.strftime('%Y-%m-%d').to_sym
+      @created_date[created_date_key] = precure if precure.created_date
     end
   end
 
   def hashize_movie_date
     @movie_started_date = {}
     Rubicure::Movie.config.map do |_k, v|
-      v[:started_date].nil? || @movie_started_date[v[:started_date]] = v
+      next if v[:started_date].nil?
+      @movie_started_date[v[:started_date].strftime('%Y-%m-%d').to_sym] = v
     end
   end
 end

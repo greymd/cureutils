@@ -35,6 +35,7 @@ class BaseLogic
     @in = File.open(filename)
   rescue SystemCallError => e
     @err.puts e.message.to_s
+    # TODO: Define error codes as enum.
     exit(2)
   rescue IOError => e
     @err.puts e.message.to_s
