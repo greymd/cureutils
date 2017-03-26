@@ -462,7 +462,7 @@ Yes！プリキュア5！
 プリキュア！エメラルド・リンカネーション！"
   assertEquals "$expected" "$result"
 
-  result=`bundle exec cure echo -p cure_macaroon -a`
+  result=`bundle exec cure echo -qp cure_macaroon`
   expected="キュアラモード・デコレーション！
 マカロン！
 美しさとときめきを！
