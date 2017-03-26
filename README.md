@@ -4,6 +4,7 @@
 
 # Cureutils
 [![Gem Version](https://badge.fury.io/rb/cureutils.svg)](https://badge.fury.io/rb/cureutils)
+[![Build Status](https://travis-ci.org/greymd/cureutils.svg?branch=master)](https://travis-ci.org/greymd/cureutils)
 
 Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
 
