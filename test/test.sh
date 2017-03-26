@@ -368,7 +368,8 @@ test_date() {
 2011-02-04 
 2011-02-05 " "$(echo 2011{01..12}{01..31} | xargs -n 1 | bundle exec cure date -f - "+%F @P" | awk NF==1)"
 
-
+  echo "cure date -- Multiple precures were appered."
+  assertEquals "2016-02-07 キュアミラクル登場日/キュアマジカル登場日/魔法つかいプリキュア！初放映" "$(bundle exec cure date -d '2016-02-07' '+%F @P')"
 }
 
 test_echo() {
