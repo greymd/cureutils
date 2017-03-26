@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # coding: utf-8
 #
 # Class includes common methos which are refered from multiple commands.
