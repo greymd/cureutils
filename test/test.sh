@@ -462,14 +462,6 @@ Yes！プリキュア5！
 プリキュア！エメラルド・リンカネーション！"
   assertEquals "$expected" "$result"
 
-  result=`bundle exec cure echo -qp cure_macaroon`
-  expected="キュアラモード・デコレーション！
-マカロン！
-美しさとときめきを！
-レッツ・ラ・まぜまぜ！
-キュアマカロン！できあがり！"
-  assertEquals "$expected" "$result"
-
   echo "cure echo -- non-existing precure"
   result=`bundle exec cure echo -qp grepon`
   assertEquals "1" "$?"
