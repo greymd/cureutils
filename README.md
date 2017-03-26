@@ -8,6 +8,7 @@
 
 Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
 
+![completion_image](./img/cure_echo_demo.gif)
 
 ## Requirements
 
