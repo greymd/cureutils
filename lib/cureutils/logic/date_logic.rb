@@ -51,7 +51,7 @@ class DateLogic < BaseLogic
     @err.puts <<-EOS
 cure date: the options to specify dates for printing are mutually exclusive.
     EOS
-    exit(1)
+    false
   end
 
   def validate_date_str(str)
