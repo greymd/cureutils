@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 # coding: utf-8
 require 'cureutils/version'
 require 'cureutils/common'
-require 'cureutils/cure_janken_manager'
-require 'cureutils/cure_date_manager'
-require 'cureutils/cure_grep_manager'
-require 'cureutils/cure_echo_manager'
-require 'cureutils/cure_translate_manager'
+require 'cureutils/logic/janken_logic'
+require 'cureutils/logic/date_logic'
+require 'cureutils/logic/grep_logic'
+require 'cureutils/logic/echo_logic'
+require 'cureutils/logic/translate_logic'
 require 'active_support'
 require 'active_support/time'
 require 'time'
@@ -31,38 +32,38 @@ module Cureutils
 
     desc 'transform', 'Change human_name to precure_name.'
     def transform
-      manager = CureTranslateManager.new
-      manager.translate_from_to('[:human_name:]', '[:precure_name:]')
-      manager.in = $stdin
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.translate_from_to('[:human_name:]', '[:precure_name:]')
+      logic.in = $stdin
+      exit(logic.print_results)
     end
 
     desc 'humanize', 'Change precure_name to human_name.'
     def humanize
-      manager = CureTranslateManager.new
-      manager.translate_from_to('[:precure_name:]', '[:human_name:]')
-      manager.in = $stdin
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.translate_from_to('[:precure_name:]', '[:human_name:]')
+      logic.in = $stdin
+      exit(logic.print_results)
     end
 
     desc 'girls [OPTIONS]', "Print girls' name."
-    option 'verbose',   aliases: 'v',
+    # In order to keep backward compatibility, v option is still remaining.
+    option 'full-name', aliases: 'f',
                         type: :boolean,
-                        desc: "Include particular girl's full name."
+                        desc: "Show girl's full name if it exists."
     option 'movie',     aliases: 'm',
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
     def girls
-      girls = Precure.all_stars
-      girls = girls << Cure.echo if options[:movie]
-      girls.map!(&:human_name)
-      if options[:verbose]
+      girls = Precure.all_girls
+      girls.delete(Cure.echo) unless options[:movie]
+      if options['full-name'.to_sym]
         girls.each do |v|
-          puts v
+          puts v.full_name
         end
       else
         girls.each do |v|
-          puts v.gsub(/\([^\)]+\)$/, '')
+          puts v.human_name
         end
       end
     end
@@ -72,8 +73,8 @@ module Cureutils
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
     def precures
-      cures = Precure.all_stars
-      cures = cures << Cure.echo if options[:movie]
+      cures = Precure.all_girls
+      cures.delete(Cure.echo) unless options[:movie]
       cures.map!(&:precure_name)
       cures.each do |v|
         puts v
@@ -88,22 +89,22 @@ module Cureutils
                             type: :boolean,
                             desc: 'Print only the matched parts.'
     def grep(default_pat = '[:precure_name:]', filename = nil)
-      manager = CureGrepManager.new
-      manager.source_input(filename)
-      manager.pattern(default_pat.clone, options['extended-regexp'.to_sym])
+      logic = GrepLogic.new
+      logic.source_input(filename)
+      logic.pattern(default_pat.clone, options['extended-regexp'.to_sym])
       # Check the file discriptor to check the pipe exists or not.
-      manager.option_colorize($stdout.isatty)
-      manager.option_only(options['only-matching'.to_sym])
+      logic.option_colorize($stdout.isatty)
+      logic.option_only(options['only-matching'.to_sym])
       # Print matched lines.
-      exit(manager.print_results)
+      exit(logic.print_results)
     end
 
     desc 'tr PATTERN REPLACE', 'Translate Precure related parameters.'
     def tr(pat_from = '[:precure_name:]', pat_to = '[:human_name:]')
-      manager = CureTranslateManager.new
-      manager.in = $stdin
-      manager.translate_from_to(pat_from, pat_to)
-      exit(manager.print_results)
+      logic = TranslateLogic.new
+      logic.in = $stdin
+      logic.translate_from_to(pat_from, pat_to)
+      exit(logic.print_results)
     end
 
     desc 'echo [OPTIONS] PATTERN', 'Print messages of Precure.'
@@ -123,30 +124,36 @@ module Cureutils
                         type: :string,
                         desc: 'Choose style of the transformation.'
     def echo
-      manager = CureEchoManager.new
-      manager.precure(options[:precure])
-      manager.msg_attack(options[:attack])
-      manager.nosleep(options[:quick])
-      manager.style(options[:style])
-      exit(manager.print_results)
+      logic = EchoLogic.new
+      logic.precure(options[:precure])
+      logic.msg_attack(options[:attack])
+      logic.nosleep(options[:quick])
+      logic.style(options[:style])
+      exit(logic.print_results)
     end
 
     desc 'date [OPTIONS] [+FORMAT]',
          'Display date, time and Precure related events.'
-    option 'date', aliases: 'd'
+    option 'date', aliases: 'd',
+                   type: :string,
+                   desc: '-d STRING: Display time described by STRING.'
+    option 'file', aliases: 'f',
+                   type: :string,
+                   desc: '-f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
-      manager = CureDateManager.new
-      manager.datetime(options[:date])
-      manager.format = fmt
-      exit(manager.print_results)
+      logic = DateLogic.new
+      logic.opt_date(options[:date])
+      logic.opt_file(options[:file])
+      logic.format = fmt
+      exit(logic.print_results)
     end
 
     desc 'janken', %q(Let's play "Pikarin Janken" !)
     def janken
-      manager = CureJankenManager.new
-      exit(manager.janken.to_i)
+      logic = JankenLogic.new
+      exit(logic.janken.to_i)
     end
   end
 end

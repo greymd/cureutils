@@ -4,8 +4,15 @@
 
 # Cureutils
 [![Gem Version](https://badge.fury.io/rb/cureutils.svg)](https://badge.fury.io/rb/cureutils)
+[![Build Status](https://travis-ci.org/greymd/cureutils.svg?branch=master)](https://travis-ci.org/greymd/cureutils)
 
 Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
+
+
+## Requirements
+
+* ruby >= 2.2.2
+  + more: [.travis.yml](./.travis.yml)
 
 ## Installation
 
@@ -14,7 +21,7 @@ Install:
 ```
 $ gem install cureutils
 
-# for ruby 2.0, 2.1, 2.2
+# for 2.2
 $ gem install 'backport_dig'
 ```
 
@@ -66,13 +73,30 @@ And other general date formats are usable.
 
 ### Options
 
-| Option | Description                                           |
-| ------ | ---------                                             |
-| -d     | cure date -d STRING: display time described by STRING |
+| Option | Description                                                               |
+| ------ | ---------                                                                 |
+| -d     | cure date -d STRING: display time described by STRING                     |
+| -f     | cure date -f DATEFILE: Load each line of DATEFILE as STRING of -d option. |
 
 ```sh
 $ cure date -d '3 years ago' '+%Y/%m @P'
 2013/06 ドキドキ！プリキュア放映期間
+```
+
+Standard input can be loaded by giving `-` as DATEFILE.
+
+```sh
+$ echo 2016{01..12}{01..31}| xargs -n 1 | cure date -f - '+%F @P' 2>/dev/null | grep 誕生日 | head
+2016-01-07 宇佐美いちか(キュアホイップ)誕生日/Go!プリンセスプリキュア放映期間
+2016-04-04 雪城ほのか(キュアホワイト)誕生日/魔法つかいプリキュア！放映期間
+2016-04-10 春野はるか(キュアフローラ)誕生日/魔法つかいプリキュア！放映期間
+2016-04-16 有栖川ひまり(キュアカスタード)誕生日/魔法つかいプリキュア！放映期間
+2016-05-28 四葉ありす(キュアロゼッタ)誕生日/魔法つかいプリキュア！放映期間
+2016-06-11 琴爪ゆかり(キュアマカロン)誕生日/魔法つかいプリキュア！放映期間
+2016-06-12 朝日奈みらい(キュアミラクル)誕生日/魔法つかいプリキュア！放映期間
+2016-07-20 海藤みなみ(キュアマーメイド)誕生日/魔法つかいプリキュア！放映期間
+2016-08-04 相田マナ(キュアハート)誕生日/魔法つかいプリキュア！放映期間
+2016-08-07 日向咲(キュアブルーム)誕生日/魔法つかいプリキュア！放映期間
 ```
 
 ## `cure echo`
@@ -134,7 +158,7 @@ $ cure girls
 
 | Option | Description                                   |
 | ------ | -----------                                   |
-| -v     | Include particular girl's full name.          |
+| -f     | Show girl's full name if it exists.           |
 | -m     | Include who have only appeared in the movies. |
 
 
@@ -261,7 +285,7 @@ $ cure precures
 With [zplug](https://github.com/zplug/zplug), it can be installed like this.
 
 ```sh
-zplug "greymd/cureutils", use:cureutils.plugin.zsh
+zplug "greymd/cureutils"
 ```
 
 And update like this.
@@ -269,6 +293,8 @@ And update like this.
 ```sh
 $ zplug update greymd/cureutils
 ```
+
+![completion_image](./img/cure_echo_demo.gif)
 
 ## Contributing
 

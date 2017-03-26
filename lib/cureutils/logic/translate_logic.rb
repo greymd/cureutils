@@ -1,16 +1,18 @@
+# frozen_string_literal: true
 # coding: utf-8
+require 'cureutils/logic/base_logic'
+
 #
 # Class for managing cure tr (translate).
 #
-class CureTranslateManager
+class TranslateLogic < BaseLogic
   def initialize
+    super
     @translate_from = :human_name
     @translate_to = :precure_name
-    @out = $stdout
-    @in = $stdin
   end
 
-  attr_writer :out, :in
+  attr_writer :in
 
   def translate_from_to(from, to)
     @translate_from = pregex2str(from).to_sym
@@ -37,7 +39,7 @@ class CureTranslateManager
       line.scan(/#{cure_pattern}/).each do |pat|
         updated_line.gsub!(/#{pat[0]}/, table[pat[0]])
       end
-      puts updated_line
+      @out.puts updated_line
     end
     0
   end

@@ -1,31 +1,19 @@
+# frozen_string_literal: true
 # coding: utf-8
+require 'cureutils/logic/base_logic'
 
 # Singleton class for cure echo
-class CureEchoManager
+class EchoLogic < BaseLogic
   module EchoMode
     TRANSFORM = 1
     ATTACK = 2
   end
 
   def initialize
-    @in  = $stdin
-    @out = $stdout
-    @err = $stderr
+    super
     @cure_name = 'echo'
     @message_mode = EchoMode::TRANSFORM
     @style_priority = []
-  end
-
-  def source_output(source = $stdout)
-    @out = source
-  end
-
-  def source_input(source = $stdin)
-    @in = source
-  end
-
-  def source_err(source = $stderr)
-    @err = source
   end
 
   def precure(cure_name = false)

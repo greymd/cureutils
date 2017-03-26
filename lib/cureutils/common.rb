@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # coding: utf-8
 #
 # Class includes common methos which are refered from multiple commands.
@@ -18,7 +19,7 @@ class Common
     end
 
     def cure_list(sym)
-      list = Precure.all_stars.map(&sym)
+      list = Precure.all_girls.map(&sym)
       list << Cure.echo[sym]
       # Regulate cure princes human name
       list.map do |str|
