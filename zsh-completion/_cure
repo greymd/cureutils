@@ -121,6 +121,7 @@ function _cure-date () {
 	local -a args
 	args=(
 		'-d: cure date -d STRING: Display time described by STRING.'
+		'-f: cure date -f DATEFILE: cure date -f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
 		'+%Y/%m/%d_%H\:%M\:%S_@P: Example date string 1.'
 		'+%Y/%m/%d_@P: Example date string 2.'
 	)
