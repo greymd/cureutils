@@ -100,7 +100,7 @@ cure date: the options to specify dates for printing are mutually exclusive.
                   created_date?(date),
                   movie_date?(date),
                   series_between(date)].compact
-    event_list.join('/')
+    event_list.flatten.join('/')
   end
 
   def time2date(time_obj)
@@ -110,13 +110,15 @@ cure date: the options to specify dates for printing are mutually exclusive.
   def birth_date?(date)
     date_str = date.strftime('%-m/%-d')
     result = @birth_date[date_str.to_sym]
-    "#{result[:human_name]}(#{result[:precure_name]})誕生日" unless result.nil?
+    return if result.nil?
+    result.map { |v| "#{v[:human_name]}(#{v[:precure_name]})誕生日" }
   end
 
   def created_date?(date)
     date_str = date.strftime('%Y-%m-%d')
     result = @created_date[date_str.to_sym]
-    "#{result[:precure_name]}登場日" unless result.nil?
+    return if result.nil?
+    result.map { |v| v[:precure_name] + '登場日' }
   end
 
   def movie_date?(date)
@@ -151,13 +153,21 @@ cure date: the options to specify dates for printing are mutually exclusive.
     @birth_date = {}
     @created_date = {}
     Precure.all_girls.each do |precure|
-      # TODO: Support duplicated birthday
+      # Create birthday table
       birthday_key = precure.birthday.to_s.to_sym
-      @birth_date[birthday_key] = precure if precure.have_birthday?
-      # TODO: Support duplicated created_date
+      @birth_date =
+        create_array_on_hash(@birth_date, birthday_key, precure)
+      # Create table for the first appeared date .
       created_date_key = precure.created_date.strftime('%Y-%m-%d').to_sym
-      @created_date[created_date_key] = precure if precure.created_date
+      @created_date =
+        create_array_on_hash(@created_date, created_date_key, precure)
     end
+  end
+
+  def create_array_on_hash(arr_hash, key, value)
+    arr_hash[key] = [] unless arr_hash.key?(key)
+    arr_hash[key] << value
+    arr_hash
   end
 
   def hashize_movie_date
