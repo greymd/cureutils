@@ -1,14 +1,17 @@
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/wiki/greymd/cureutils/logo/cureutils_logo.png" />
+  <h4 align="center">Useful command line tool for Japanese battle heroine Pretty Cure (Precure).</h2>
+</h1>
+
 <p align="center">
-<img src="./img/cureutils_logo.png" />
+  <a href=https://badge.fury.io/rb/cureutils><img src="https://badge.fury.io/rb/cureutils.svg" alt="Gem Version" /></a>
+  <a href=https://travis-ci.org/greymd/cureutils><img src="https://travis-ci.org/greymd/cureutils.svg?branch=master" alt="Build Status" /></a>
 </p>
 
-# Cureutils
-[![Gem Version](https://badge.fury.io/rb/cureutils.svg)](https://badge.fury.io/rb/cureutils)
-[![Build Status](https://travis-ci.org/greymd/cureutils.svg?branch=master)](https://travis-ci.org/greymd/cureutils)
+<p align="center">
+  <img src="https://raw.githubusercontent.com/wiki/greymd/cureutils/animation/cure_echo_demo.gif" alt="Introduction Git Animation" />
+</p>
 
-Useful command line tool for Japanese battle heroine Pretty Cure (Precure).
-
-![completion_image](./img/cure_echo_demo.gif)
 
 ## Requirements
 
