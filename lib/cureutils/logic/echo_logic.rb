@@ -52,7 +52,7 @@ class EchoLogic < BaseLogic
   private
 
   def original_transform(precure)
-    return precure.transform! unless precure.respond_to?(:transform_styles)
+    return precure.transform! unless transformable?(precure)
     chosen_style = @style_priority.find do |s|
       precure.transform_styles.include?(s)
     end
@@ -62,6 +62,12 @@ class EchoLogic < BaseLogic
       default_style, _entity = precure.transform_styles.first
       precure.transform! default_style
     end
+  end
+
+  def transformable?(precure)
+    return false if precure.transform_calls.nil?
+    return true if precure.respond_to?(:transform_styles)
+    false
   end
 
   def existing_precure?
