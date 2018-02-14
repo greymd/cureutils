@@ -218,6 +218,10 @@ test_girls_full(){
     assertEquals 0 $?
     echo "${result}" | grep "剣城あきら"
     assertEquals 0 $?
+    echo "${result}" | grep "野乃はな"
+    assertEquals 0 $?
+    echo "${result}" | grep "薬師寺さあや"
+    assertEquals 0 $?
     echo "${result}" | grep "坂上あゆみ"
     assertEquals 0 $?
 }
@@ -321,6 +325,10 @@ test_precures () {
     echo "${result}" | grep "キュアマカロン"
     assertEquals 0 $?
     echo "${result}" | grep "キュアショコラ"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアエール"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアアンジュ"
     assertEquals 0 $?
 }
 
@@ -741,6 +749,10 @@ test_transform() {
   assertEquals 0 $?
   echo "${result}" | grep "キュアショコラ"
   assertEquals 0 $?
+  echo "${result}" | grep "キュアエール"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアアンジュ"
+  assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
 }
@@ -858,6 +870,11 @@ test_tr() {
   assertEquals 0 $?
   echo "${result}" | grep "能登麻美子"
   assertEquals 0 $?
+  echo "${result}" | grep "引坂理絵"
+  assertEquals 0 $?
+  echo "${result}" | grep "本泉莉奈"
+  assertEquals 0 $?
+
 }
 
 . ${TEST_DIR}/shunit2/src/shunit2

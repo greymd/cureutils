@@ -17,9 +17,10 @@ subcommands=(
 	"transform: Replace human_name to precure_name"
 )
 
-# bundle exec cure precures -m |bundle exec cure tr [:precure_name:] [:girl_name:] | grep '[[:alnum:]]' | sort | uniq
+# ./bin/cure precures -m |./bin/cure tr '[:precure_name:]' '[:girl_name:]' | grep '[[:alnum:]]' | sort | uniq | sed "s/.*/\t'&'/"
 precure_girl_names=(
 	'cure_ace'
+	'cure_ange'
 	'cure_aqua'
 	'cure_beat'
 	'cure_beauty'
@@ -68,6 +69,7 @@ precure_girl_names=(
 	'cure_twinkle'
 	'cure_whip'
 	'cure_white'
+	'cure_yell'
 	'milky_rose'
 	'shiny_luminous'
 )
