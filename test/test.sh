@@ -222,6 +222,8 @@ test_girls_full(){
     assertEquals 0 $?
     echo "${result}" | grep "薬師寺さあや"
     assertEquals 0 $?
+    echo "${result}" | grep "輝木ほまれ"
+    assertEquals 0 $?
     echo "${result}" | grep "坂上あゆみ"
     assertEquals 0 $?
 }
@@ -329,6 +331,8 @@ test_precures () {
     echo "${result}" | grep "キュアエール"
     assertEquals 0 $?
     echo "${result}" | grep "キュアアンジュ"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアエトワール"
     assertEquals 0 $?
 }
 
@@ -752,6 +756,8 @@ test_transform() {
   echo "${result}" | grep "キュアエール"
   assertEquals 0 $?
   echo "${result}" | grep "キュアアンジュ"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアエトワール"
   assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
