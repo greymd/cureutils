@@ -11,13 +11,13 @@ tearDown(){
 }
 
 test_version(){
-    result=`bundle exec cure version`
+    result=`bundle exec ./cure version`
     echo "${result}" | grep -E '^Cureutils [\.0-9]+$'
     assertEquals 0 $?
 }
 
 test_girls(){
-    result=`bundle exec cure girls`
+    result=`bundle exec ./cure girls`
     echo "${result}" | grep "美墨なぎさ"
     assertEquals 0 $?
     echo "${result}" | grep "雪城ほのか"
@@ -119,7 +119,7 @@ test_girls(){
 }
 
 test_girls_full(){
-    result=`bundle exec cure girls -fm`
+    result=`bundle exec ./cure girls -fm`
     echo "${result}" | grep "美墨なぎさ"
     assertEquals 0 $?
     echo "${result}" | grep "雪城ほのか"
@@ -218,12 +218,18 @@ test_girls_full(){
     assertEquals 0 $?
     echo "${result}" | grep "剣城あきら"
     assertEquals 0 $?
+    echo "${result}" | grep "野乃はな"
+    assertEquals 0 $?
+    echo "${result}" | grep "薬師寺さあや"
+    assertEquals 0 $?
+    echo "${result}" | grep "輝木ほまれ"
+    assertEquals 0 $?
     echo "${result}" | grep "坂上あゆみ"
     assertEquals 0 $?
 }
 
 test_precures () {
-    result=`bundle exec cure precures`
+    result=`bundle exec ./cure precures`
     echo "${result}" | grep "キュアブラック"
     assertEquals 0 $?
     echo "${result}" | grep "キュアホワイト"
@@ -322,41 +328,47 @@ test_precures () {
     assertEquals 0 $?
     echo "${result}" | grep "キュアショコラ"
     assertEquals 0 $?
+    echo "${result}" | grep "キュアエール"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアアンジュ"
+    assertEquals 0 $?
+    echo "${result}" | grep "キュアエトワール"
+    assertEquals 0 $?
 }
 
 test_date() {
   echo "cure date -- default"
-  result=`bundle exec cure date`
+  result=`bundle exec ./cure date`
   expected_regex="$(perl -MPOSIX -e 'print POSIX::strftime "%Y-%m-%d", localtime(time);') ..:..:.. ?.*"
   echo "${result}" | grep -E "$expected_regex"
   assertEquals 0 $?
 
   echo "cure date -- -d option: 3 years ago"
-  result=`bundle exec cure date -d '3 years ago'`
+  result=`bundle exec ./cure date -d '3 years ago'`
   expected_regex="$(perl -MPOSIX -e 'print POSIX::strftime "%Y-%m-%d", localtime(time - 31536000 * 3 - 86400);') ..:..:.. ?.*"
   echo "${result}" | grep -E "$expected_regex"
   assertEquals 0 $?
 
   echo "cure date -- +format: YYYY@MM@DD"
-  result=`bundle exec cure date '+%Y@%m@%d %H:%M:%S @P'`
+  result=`bundle exec ./cure date '+%Y@%m@%d %H:%M:%S @P'`
   expected_regex="$(perl -MPOSIX -e 'print POSIX::strftime "%Y@%m@%d", localtime(time);') ..:..:.. ?.*"
   echo "${result}" | grep -E "$expected_regex"
   assertEquals 0 $?
 
   echo "cure date -- -d option and +format: YYYY@MM@DD 37 days ago"
-  result=`bundle exec cure date -d '37 days ago' '+%Y@%m@%d %H:%M:%S @P'`
+  result=`bundle exec ./cure date -d '37 days ago' '+%Y@%m@%d %H:%M:%S @P'`
   expected_regex="$(perl -MPOSIX -e 'print POSIX::strftime "%Y@%m@%d", localtime(time - 86400 * 37);') ..:..:.. ?.*"
   echo "${result}" | grep -E "$expected_regex"
   assertEquals 0 $?
 
   echo "cure date -- -d option and -f option"
-  echo 2010{01..12}{01..31} | xargs -n 1 | bundle exec cure date -d '2015-01-01' -f - +%F:@P
+  echo 2010{01..12}{01..31} | xargs -n 1 | bundle exec ./cure date -d '2015-01-01' -f - +%F:@P
   assertEquals 1 $?
 
   echo "cure date -- Load file with -f option"
   local _datefile="${SHUNIT_TMPDIR}/cure_date_test"
   echo 2010{01..12}{01..31} | xargs -n 1 > "$_datefile"
-  result=`bundle exec cure date -f $_datefile`
+  result=`bundle exec ./cure date -f $_datefile`
   assertEquals 365 "$(echo "${result}" | grep -c .)"
 
   echo "cure date -- Load stdin with -f option"
@@ -366,22 +378,22 @@ test_date() {
 2011-02-02 
 2011-02-03 
 2011-02-04 
-2011-02-05 " "$(echo 2011{01..12}{01..31} | xargs -n 1 | bundle exec cure date -f - "+%F @P" | awk NF==1)"
+2011-02-05 " "$(echo 2011{01..12}{01..31} | xargs -n 1 | bundle exec ./cure date -f - "+%F @P" | awk NF==1)"
 
   echo "cure date -- Multiple precures were appered."
-  assertEquals "2016-02-07 キュアミラクル登場日/キュアマジカル登場日/魔法つかいプリキュア！初放映" "$(bundle exec cure date -d '2016-02-07' '+%F @P')"
+  assertEquals "2016-02-07 キュアミラクル登場日/キュアマジカル登場日/魔法つかいプリキュア！初放映" "$(bundle exec ./cure date -d '2016-02-07' '+%F @P')"
 }
 
 test_echo() {
   echo "cure echo -- default"
-  result=`bundle exec cure echo -q`
+  result=`bundle exec ./cure echo -q`
   expected="みんなの思いを守るために
 心をひとつに！
 思いよ届け！キュアエコー！"
   assertEquals "$expected" "$result"
 
   echo "cure echo -- attack"
-  result=`bundle exec cure echo -aq`
+  result=`bundle exec ./cure echo -aq`
   expected="みんなの思いを守るために
 心をひとつに！
 思いよ届け！キュアエコー！
@@ -390,7 +402,7 @@ test_echo() {
   assertEquals "$expected" "$result"
 
   echo "cure echo -- another precure"
-  result=`bundle exec cure echo -qp happy`
+  result=`bundle exec ./cure echo -qp happy`
   expected="(レディ？)
 プリキュア・スマイルチャージ！
 (ゴー！ゴー！レッツ・ゴー！ハッピー！！)
@@ -400,7 +412,7 @@ test_echo() {
   assertEquals "$expected" "$result"
 
   echo "cure echo -- another precure + attack"
-  result=`bundle exec cure echo -qap mint`
+  result=`bundle exec ./cure echo -qap mint`
   expected="プリキュア！メタモルフォーゼ！
 安らぎの緑の大地、キュアミント！
 希望の力と未来の光！
@@ -411,7 +423,7 @@ Yes！プリキュア5！
   assertEquals "$expected" "$result"
 
   echo "cure echo -- Maho girls precure"
-  result=`bundle exec cure echo -qp magical`
+  result=`bundle exec ./cure echo -qp magical`
   expected="キュアップ・ラパパ！　ダイヤ！
 ミラクル・マジカル・ジュエリーレ！
 ふたりの魔法！キュアマジカル！
@@ -419,7 +431,7 @@ Yes！プリキュア5！
   assertEquals "$expected" "$result"
 
   echo "cure echo -- with style option(ruby)"
-  result=`bundle exec cure echo -qp magical -s ruby`
+  result=`bundle exec ./cure echo -qp magical -s ruby`
   expected="キュアップ・ラパパ！　ルビー！
 ミラクル・マジカル・ジュエリーレ！
 ふたりの魔法！キュアマジカル！
@@ -427,14 +439,14 @@ Yes！プリキュア5！
   assertEquals "$expected" "$result"
 
   echo "cure echo -- with style option(diamond)"
-  result=`bundle exec cure echo -qp magical -s diamond`
+  result=`bundle exec ./cure echo -qp magical -s diamond`
   expected="キュアップ・ラパパ！　ダイヤ！
 ミラクル・マジカル・ジュエリーレ！
 ふたりの魔法！キュアマジカル！
 魔法つかいプリキュア！！"
   assertEquals "$expected" "$result"
 
-  result=`bundle exec cure echo -qap cure_miracle -s topaz`
+  result=`bundle exec ./cure echo -qap cure_miracle -s topaz`
   expected="キュアップ・ラパパ！　トパーズ！
 ミラクル・マジカル・ジュエリーレ！
 ふたりの奇跡！キュアミラクル！
@@ -445,14 +457,14 @@ Yes！プリキュア5！
 プリキュア・トパーズ・エスペランサ！"
   assertEquals "$expected" "$result"
 
-  result=`bundle exec cure echo -qp magical -s sapphire`
+  result=`bundle exec ./cure echo -qp magical -s sapphire`
   expected="キュアップ・ラパパ！　サファイア！
 ミラクル・マジカル・ジュエリーレ！
 ふたりの魔法！キュアマジカル！
 魔法つかいプリキュア！！"
   assertEquals "$expected" "$result"
 
-  result=`bundle exec cure echo -qap cure_felice -s emerald`
+  result=`bundle exec ./cure echo -qap cure_felice -s emerald`
   expected="キュアップ・ラパパ！エメラルド！
 フェリーチェ・ファンファン・フラワーレ！
 あまねく生命に祝福を！キュアフェリーチェ！
@@ -463,31 +475,31 @@ Yes！プリキュア5！
   assertEquals "$expected" "$result"
 
   echo "cure echo -- non-existing precure"
-  result=`bundle exec cure echo -qp grepon`
+  result=`bundle exec ./cure echo -qp grepon`
   assertEquals "1" "$?"
 }
 
 test_grep() {
   echo "cure grep -- default"
-  result=`echo キュア{レッド,ピンク,ホワイト,ブルー,ブラック} 東せつな | xargs -n 1 |  bundle exec cure grep`
+  result=`echo キュア{レッド,ピンク,ホワイト,ブルー,ブラック} 東せつな | xargs -n 1 |  bundle exec ./cure grep`
   expected="キュアホワイト
 キュアブラック"
   assertEquals "$expected" "$result"
 
   echo "cure grep -- -E option"
-  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep '^私は[:precure_name:]です'`
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec ./cure grep '^私は[:precure_name:]です'`
   expected="私はキュアホワイトです。
 私はキュアブラックです。"
   assertEquals "$expected" "$result"
 
   echo "cure grep -- with -o option"
-  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep -o '私は[:precure_name:]で'`
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec ./cure grep -o '私は[:precure_name:]で'`
   expected="私はキュアホワイトで
 私はキュアブラックで"
   assertEquals "$expected" "$result"
 
   echo "cure grep -- with -o and -E options"
-  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec cure grep -oE '^私は.{3}'`
+  result=`echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。 | xargs -n 1 |  bundle exec ./cure grep -oE '^私は.{3}'`
   expected="私はキュア
 私はキュア
 私はキュア
@@ -498,32 +510,32 @@ test_grep() {
   # TODO: Support default filter with input file.
   echo "cure grep -- default with file"
   echo キュア{レッド,ピンク,ホワイト,ブルー,ブラック} 東せつな | xargs -n 1 > tmpfile
-  result=`bundle exec cure grep '[:precure_name:]' tmpfile`
+  result=`bundle exec ./cure grep '[:precure_name:]' tmpfile`
   expected="キュアホワイト
 キュアブラック"
   assertEquals "$expected" "$result"
 
   echo "cure grep --  No such file error."
-  bundle exec cure grep '[:precure_name:]' nonExistTmpfile
+  bundle exec ./cure grep '[:precure_name:]' nonExistTmpfile
   assertEquals 2 "$?"
 
   echo "cure grep -- -E option with file"
   echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
-  result=`bundle exec cure grep '^私は[:precure_name:]です' tmpfile`
+  result=`bundle exec ./cure grep '^私は[:precure_name:]です' tmpfile`
   expected="私はキュアホワイトです。
 私はキュアブラックです。"
   assertEquals "$expected" "$result"
 
   echo "cure grep -- with -o option with file"
   echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
-  result=`bundle exec cure grep -o '私は[:precure_name:]で' tmpfile`
+  result=`bundle exec ./cure grep -o '私は[:precure_name:]で' tmpfile`
   expected="私はキュアホワイトで
 私はキュアブラックで"
   assertEquals "$expected" "$result"
 
   echo "cure grep -- with -o and -E options with file"
   echo 私はキュア{レッド,ピンク,ホワイト,ブルー,ブラック}です。| xargs -n 1 > tmpfile
-  result=`bundle exec cure grep -oE '^私は.{3}' tmpfile`
+  result=`bundle exec ./cure grep -oE '^私は.{3}' tmpfile`
   expected="私はキュア
 私はキュア
 私はキュア
@@ -533,12 +545,12 @@ test_grep() {
 
   echo "cure grep -- no matches"
   echo 私はキュア{foo,bar,hoge}です。| xargs -n 1 > tmpfile
-  result=`cat tmpfile | bundle exec cure grep`
+  result=`cat tmpfile | bundle exec ./cure grep`
   assertEquals "1" "$?"
 }
 
 test_humanize() {
-  result=`bundle exec cure precures -m | bundle exec cure humanize`
+  result=`bundle exec ./cure precures -m | bundle exec ./cure humanize`
   echo "${result}" | grep "美墨なぎさ"
   assertEquals 0 $?
   echo "${result}" | grep "雪城ほのか"
@@ -642,7 +654,7 @@ test_humanize() {
 }
 
 test_transform() {
-  result=`bundle exec cure girls -m | bundle exec cure transform`
+  result=`bundle exec ./cure girls -m | bundle exec ./cure transform`
   echo "${result}" | grep "キュアブラック"
   assertEquals 0 $?
   echo "${result}" | grep "キュアホワイト"
@@ -741,23 +753,29 @@ test_transform() {
   assertEquals 0 $?
   echo "${result}" | grep "キュアショコラ"
   assertEquals 0 $?
+  echo "${result}" | grep "キュアエール"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアアンジュ"
+  assertEquals 0 $?
+  echo "${result}" | grep "キュアエトワール"
+  assertEquals 0 $?
   echo "${result}" | grep "キュアエコー"
   assertEquals 0 $?
 }
 
 test_janken() {
   # Win
-  result=`echo 0 | bundle exec cure janken`
+  result=`echo 0 | bundle exec ./cure janken`
   assertEquals 0 $?
 
   # Something
-  result=`echo 1 | bundle exec cure janken`
+  result=`echo 1 | bundle exec ./cure janken`
   echo $? | grep -E '^(0|1|2)$' > /dev/null
   assertEquals 0 $?
 }
 
 test_tr() {
-  result=`bundle exec cure girls -m | bundle exec cure tr '[:human_name:]' '[:cast_name:]'`
+  result=`bundle exec ./cure girls -m | bundle exec ./cure tr '[:human_name:]' '[:cast_name:]'`
   echo "${result}" | grep "本名陽子"
   assertEquals 0 $?
   echo "${result}" | grep "ゆかな"
@@ -858,6 +876,11 @@ test_tr() {
   assertEquals 0 $?
   echo "${result}" | grep "能登麻美子"
   assertEquals 0 $?
+  echo "${result}" | grep "引坂理絵"
+  assertEquals 0 $?
+  echo "${result}" | grep "本泉莉奈"
+  assertEquals 0 $?
+
 }
 
 . ${TEST_DIR}/shunit2/src/shunit2
