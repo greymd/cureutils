@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# coding: utf-8
+
 require 'cureutils/logic/base_logic'
 
 #
@@ -15,8 +15,8 @@ class JankenLogic < BaseLogic
                      [1, 2, 0, 1],
                      [0, 1, 2, 1],
                      [0, 0, 0, 2]]
-    @result_idx = %w(あなたのかち あなたのまけ あいこ)
-    @te_idx = %w(グー チョキ パー グッチョッパー)
+    @result_idx = %w[あなたのかち あなたのまけ あいこ]
+    @te_idx = %w[グー チョキ パー グッチョッパー]
     @te_hash = Hash[[@te_idx, (0..3).map(&:to_s)].transpose]
     @buf = []
   end

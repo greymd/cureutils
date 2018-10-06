@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# coding: utf-8
+
 require 'cureutils/version'
 require 'cureutils/common'
 require 'cureutils/logic/janken_logic'

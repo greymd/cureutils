@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# coding: utf-8
+
 require 'cureutils/logic/base_logic'
 
 # Singleton class for cure echo
