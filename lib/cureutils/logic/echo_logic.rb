@@ -39,9 +39,10 @@ class EchoLogic < BaseLogic
 
   def print_results
     return 1 unless existing_precure?
+
     precure = Cure.send(@cure_name.to_sym)
     if @message_mode == EchoMode::TRANSFORM
-      precure = original_transform(precure)
+      original_transform(precure)
     elsif @message_mode == EchoMode::ATTACK
       precure = original_transform(precure)
       precure.attack!
@@ -53,6 +54,7 @@ class EchoLogic < BaseLogic
 
   def original_transform(precure)
     return precure.transform! unless transformable?(precure)
+
     chosen_style = @style_priority.find do |s|
       precure.transform_styles.include?(s)
     end
@@ -66,7 +68,9 @@ class EchoLogic < BaseLogic
 
   def transformable?(precure)
     return false if precure.transform_calls.nil?
-    return true if precure.respond_to?(:transform_styles)
+
+    return true if precure.key?(:transform_styles)
+
     false
   end
 
