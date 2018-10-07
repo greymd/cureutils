@@ -496,9 +496,83 @@ describe 'grep' do # rubocop:disable Metrics/BlockLength
   end
 end
 
+describe 'janken' do
+  it 'Win' do
+    system('echo 0 | bundle exec ./bin/cure janken')
+    expect($CHILD_STATUS.exitstatus).to eq 0
+  end
+
+  it 'Win, Lose or Draw' do
+    system('echo 1 | bundle exec ./bin/cure janken')
+    expect($CHILD_STATUS.exitstatus.to_s).to match '^(0|1|2)$'
+  end
+end
+
+describe 'tr' do # rubocop:disable Metrics/BlockLength
+  it 'transform precure to cast_name' do # rubocop:disable Metrics/BlockLength
+    result = `bundle exec ./bin/cure girls -m | bundle exec ./bin/cure tr '[:human_name:]' '[:cast_name:]'` # rubocop:disable Metrics/LineLength
+    expect(result).to include '本名陽子'
+    expect(result).to include 'ゆかな'
+    expect(result).to include '田中理恵'
+    expect(result).to include '樹元オリエ'
+    expect(result).to include '榎本温子'
+    expect(result).to include '三瓶由布子'
+    expect(result).to include '竹内順子'
+    expect(result).to include '伊瀬茉莉也'
+    expect(result).to include '永野愛'
+    expect(result).to include '前田愛'
+    expect(result).to include '仙台エリ'
+    expect(result).to include '沖佳苗'
+    expect(result).to include '喜多村英梨'
+    expect(result).to include '中川亜紀子'
+    expect(result).to include '小松由佳'
+    expect(result).to include '水樹奈々'
+    expect(result).to include '水沢史絵'
+    expect(result).to include '桑島法子'
+    expect(result).to include '久川綾'
+    expect(result).to include '小清水亜美'
+    expect(result).to include '折笠富美子'
+    expect(result).to include '豊口めぐみ'
+    expect(result).to include '大久保瑠美'
+    expect(result).to include '福圓美里'
+    expect(result).to include '田野アサミ'
+    expect(result).to include '金元寿子'
+    expect(result).to include '井上麻里奈'
+    expect(result).to include '西村ちなみ'
+    expect(result).to include '生天目仁美'
+    expect(result).to include '寿美菜子'
+    expect(result).to include '渕上舞'
+    expect(result).to include '宮本佳那子'
+    expect(result).to include '釘宮理恵'
+    expect(result).to include '中島愛'
+    expect(result).to include '潘めぐみ'
+    expect(result).to include '北川里奈'
+    expect(result).to include '戸松遥'
+    expect(result).to include '嶋村侑'
+    expect(result).to include '浅野真澄'
+    expect(result).to include '山村響'
+    expect(result).to include '沢城みゆき'
+    expect(result).to include '高橋李依'
+    expect(result).to include '堀江由衣'
+    expect(result).to include '早見沙織'
+    expect(result).to include '美山加恋'
+    expect(result).to include '福原遥'
+    expect(result).to include '村中知'
+    expect(result).to include '藤田咲'
+    expect(result).to include '森なな子'
+    expect(result).to include '水瀬いのり'
+    expect(result).to include '引坂理絵'
+    expect(result).to include '本泉莉奈'
+    expect(result).to include '小倉唯'
+    expect(result).to include '田村奈央'
+    expect(result).to include '田村ゆかり'
+    expect(result).to include '能登麻美子'
+  end
+end
+
 describe 'humanize' do # rubocop:disable Metrics/BlockLength
   it 'transform precures to girls' do # rubocop:disable Metrics/BlockLength
-    result = `bundle exec ./cure precures -m | bundle exec ./cure humanize`
+    result = `bundle exec ./bin/cure precures -m | bundle exec ./bin/cure humanize` # rubocop:disable Metrics/LineLength
     expect(result).to include '美墨なぎさ'
     expect(result).to include '雪城ほのか'
     expect(result).to include '九条ひかり'
@@ -560,7 +634,7 @@ end
 
 describe 'transform' do # rubocop:disable Metrics/BlockLength
   it 'transform girls to precures' do # rubocop:disable Metrics/BlockLength
-    result = `bundle exec ./cure girls -m | bundle exec ./cure transform`
+    result = `bundle exec ./bin/cure girls -m | bundle exec ./bin/cure transform` # rubocop:disable Metrics/LineLength
     expect(result).to include 'キュアブラック'
     expect(result).to include 'キュアホワイト'
     expect(result).to include 'シャイニールミナス'
