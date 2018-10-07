@@ -24,4 +24,4 @@ matrix:
 sudo: false
 
 script:
-- bash test/test.sh
+- bundle exec rspec

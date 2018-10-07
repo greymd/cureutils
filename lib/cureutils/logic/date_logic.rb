@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-# coding: utf-8
+
 require 'cureutils/logic/base_logic'
 require 'date'
 
@@ -20,6 +20,7 @@ class DateLogic < BaseLogic
 
   def opt_date(given_datetime)
     return if given_datetime.nil?
+
     @opt_date = true
     @in = []
     @in << given_datetime
@@ -27,6 +28,7 @@ class DateLogic < BaseLogic
 
   def opt_file(filename)
     return if filename.nil?
+
     @opt_file = true
     source_input(filename)
   end
@@ -35,6 +37,7 @@ class DateLogic < BaseLogic
 
   def print_results
     return 1 unless check_opts
+
     @in.each do |line|
       given_date = line ? natural_lang2time(line) : Time.now
       updated_fmt = update_fmt(given_date, @format) if given_date
@@ -48,6 +51,7 @@ class DateLogic < BaseLogic
   def check_opts
     # Either option must be true, but both must NOT be same.
     return true unless @opt_date && @opt_file
+
     @err.puts <<-EOS
 cure date: the options to specify dates for printing are mutually exclusive.
     EOS
@@ -58,7 +62,7 @@ cure date: the options to specify dates for printing are mutually exclusive.
     Date.parse(str)
   rescue ArgumentError => e
     @err.puts "cure date: #{e.message} '#{str.chomp}'"
-    return false
+    false
   end
 
   def natural_lang2time(time_str)
