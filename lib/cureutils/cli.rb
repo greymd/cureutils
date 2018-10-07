@@ -18,7 +18,7 @@ module Cureutils
   #
   # The class represents the cli interface
   #
-  class CLI < Thor
+  class CLI < Thor # rubocop:disable Metrics/ClassLength
     class << self
       def exit_on_failure?
         true
@@ -54,7 +54,7 @@ module Cureutils
     option 'movie',     aliases: 'm',
                         type: :boolean,
                         desc: 'Include who have only appeared in the movies.'
-    def girls
+    def girls # rubocop:disable Metrics/MethodLength
       girls = Precure.all_girls
       girls.delete(Cure.echo) unless options[:movie]
       if options['full-name'.to_sym]
@@ -88,7 +88,7 @@ module Cureutils
     option 'only-matching', aliases: 'o',
                             type: :boolean,
                             desc: 'Print only the matched parts.'
-    def grep(default_pat = '[:precure_name:]', filename = nil)
+    def grep(default_pat = '[:precure_name:]', filename = nil) # rubocop:disable Metrics/AbcSize, Metrics/LineLength
       logic = GrepLogic.new
       logic.source_input(filename)
       logic.pattern(default_pat.clone, options['extended-regexp'.to_sym])
@@ -123,7 +123,7 @@ module Cureutils
     option 'style',     aliases: 's',
                         type: :string,
                         desc: 'Choose style of the transformation.'
-    def echo
+    def echo # rubocop:disable Metrics/AbcSize
       logic = EchoLogic.new
       logic.precure(options[:precure])
       logic.msg_attack(options[:attack])
@@ -139,7 +139,7 @@ module Cureutils
                    desc: '-d STRING: Display time described by STRING.'
     option 'file', aliases: 'f',
                    type: :string,
-                   desc: '-f DATEFILE: Load each line of DATEFILE as STRING of -d option.'
+                   desc: '-f DATEFILE: Load each line of DATEFILE as STRING.'
     # Original date command's default is '+%a %b %e %H:%M:%S %Z %Y @P'
     # However, I would like to adopt this setting.
     def date(fmt = '+%F %H:%M:%S @P')
