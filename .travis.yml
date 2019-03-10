@@ -13,9 +13,12 @@ before_install:
 - bundle install
 
 branches:
-  only:
-  - master
-  - develop-1.0.0
+    only:
+        - master
+        - develop
+        - /^develop-.*/
+        - /^bugfix.*/
+        - /^feature.*/
 
 matrix:
   allow_failures:
