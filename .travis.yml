@@ -8,9 +8,8 @@ rvm:
 - ruby-head
 
 before_install:
-
-- sudo gem uninstall travis
-- sudo gem install travis -v 1.8.8 --no-rdoc --no-ri
+- travis_retry gem update --system || travis_retry gem update --system 2.7.8
+- travis_retry gem install bundler --no-document || travis_retry gem install bundler --no-document -v 1.17.3
 - gem update --system --no-document
 - gem install bundler -v 1.11.2
 - bundle install
