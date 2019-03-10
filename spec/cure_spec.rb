@@ -198,7 +198,7 @@ describe 'date' do # rubocop:disable Metrics/BlockLength
   end
 
   it '-d option: 3 years ago' do
-    t = Time.at(Time.now.to_i - 31_536_000 * 3 - 86_400)
+    t = Time.at(Time.now.to_i - 31_536_000 * 3)
     result = `bundle exec ./bin/cure date -d '3 years ago'`
     expect(result).to match t.strftime('%Y-%m-%d') + ' ..:..:.. ?.*'
   end
