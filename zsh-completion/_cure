@@ -73,6 +73,10 @@ precure_girl_names=(
 	'cure_yell'
 	'milky_rose'
 	'shiny_luminous'
+	'cure_star'
+	'cure_milky'
+	'cure_soleil'
+	'cure_selene'
 )
 
 # ruby -r rubicure -e 'cures = [Cure.magical, Cure.miracle, Cure.felice]; cures.map{|c| c.transform_styles.map{|k, _v| k}}.uniq.each{|v| puts v}'
