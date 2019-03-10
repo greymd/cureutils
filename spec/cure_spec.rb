@@ -67,6 +67,10 @@ describe 'girls' do # rubocop:disable Metrics/BlockLength
     expect(result).to include '輝木ほまれ'
     expect(result).to include '愛崎えみる'
     expect(result).to include 'ルールー・アムール'
+    expect(result).to include '星奈ひかる'
+    expect(result).to include '羽衣ララ'
+    expect(result).to include '天宮えれな'
+    expect(result).to include '香久矢まどか'
   end
 
   it 'show girls full' do # rubocop:disable Metrics/BlockLength
@@ -125,6 +129,10 @@ describe 'girls' do # rubocop:disable Metrics/BlockLength
     expect(result).to include '輝木ほまれ'
     expect(result).to include '愛崎えみる'
     expect(result).to include 'ルールー・アムール'
+    expect(result).to include '星奈ひかる'
+    expect(result).to include '羽衣ララ'
+    expect(result).to include '天宮えれな'
+    expect(result).to include '香久矢まどか'
     expect(result).to include '坂上あゆみ'
   end
 end
@@ -187,6 +195,10 @@ describe 'precures' do # rubocop:disable Metrics/BlockLength
     expect(result).to include 'キュアエトワール'
     expect(result).to include 'キュアマシェリ'
     expect(result).to include 'キュアアムール'
+    expect(result).to include 'キュアスター'
+    expect(result).to include 'キュアミルキー'
+    expect(result).to include 'キュアソレイユ'
+    expect(result).to include 'キュアセレーネ'
   end
 end
 
@@ -566,6 +578,10 @@ describe 'tr' do # rubocop:disable Metrics/BlockLength
     expect(result).to include '小倉唯'
     expect(result).to include '田村奈央'
     expect(result).to include '田村ゆかり'
+    expect(result).to include '成瀬瑛美'
+    expect(result).to include '小原好美'
+    expect(result).to include '安野希世乃'
+    expect(result).to include '小松未可子'
     expect(result).to include '能登麻美子'
   end
 end
@@ -628,6 +644,10 @@ describe 'humanize' do # rubocop:disable Metrics/BlockLength
     expect(result).to include '輝木ほまれ'
     expect(result).to include '愛崎えみる'
     expect(result).to include 'ルールー・アムール'
+    expect(result).to include '星奈ひかる'
+    expect(result).to include '羽衣ララ'
+    expect(result).to include '天宮えれな'
+    expect(result).to include '香久矢まどか'
     expect(result).to include '坂上あゆみ'
   end
 end
@@ -690,6 +710,10 @@ describe 'transform' do # rubocop:disable Metrics/BlockLength
     expect(result).to include 'キュアエトワール'
     expect(result).to include 'キュアマシェリ'
     expect(result).to include 'キュアアムール'
+    expect(result).to include 'キュアスター'
+    expect(result).to include 'キュアミルキー'
+    expect(result).to include 'キュアソレイユ'
+    expect(result).to include 'キュアセレーネ'
     expect(result).to include 'キュアエコー'
   end
 end
