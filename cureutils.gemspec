@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'cureutils'
   spec.version       = Cureutils::Version
   spec.authors       = ['Yamada, Yasuhiro']
-  spec.email         = ['greengregson@gmail.com']
+  spec.email         = ['yamadagrep@gmail.com']
   spec.summary       = 'Useful commands for battle heroine Pretty Cure (Precure).'
   spec.description   = 'Useful command line tool for Japanese battle heroine Pretty Cure (Precure).'
   spec.homepage      = 'https://github.com/greymd/cureutils'
