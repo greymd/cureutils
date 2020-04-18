@@ -511,7 +511,8 @@ end
 describe 'janken' do
   it 'Win' do
     system('echo 0 | bundle exec ./bin/cure janken')
-    expect($CHILD_STATUS.exitstatus).to eq 0
+    # グッチョッパー vs グッチョッパーだったらあいこになるので 2 で終わる
+    expect($CHILD_STATUS.exitstatus.to_s).to match '^(0|2)$'
   end
 
   it 'Win, Lose or Draw' do
