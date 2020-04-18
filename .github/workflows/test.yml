@@ -1,6 +1,4 @@
-name :test
-
-# Some configures are inspired by https://github.com/sue445/rubicure/blob/master/.github/workflows/test.yml
+name: test
 
 on:
   push:
@@ -19,9 +17,11 @@ on:
 env:
   RUBYOPT: -EUTF-8
 
+# Some configures are inspired by https://github.com/sue445/rubicure/blob/master/.github/workflows/test.yml
 jobs:
   test:
     runs-on: ubuntu-latest
+    container: ${{ matrix.ruby }}
 
     strategy:
       matrix:
@@ -40,7 +40,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # Keep cache under vendor/bundle
       - name: Cache vendor/bundle
         uses: actions/cache@v1
         id: cache_gem

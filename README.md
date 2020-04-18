@@ -5,7 +5,7 @@
 
 <p align="center">
   <a href=https://badge.fury.io/rb/cureutils><img src="https://badge.fury.io/rb/cureutils.svg" alt="Gem Version" /></a>
-  <a href=https://travis-ci.org/greymd/cureutils><img src="https://travis-ci.org/greymd/cureutils.svg?branch=master" alt="Build Status" /></a>
+  <a href=https://github.com/greymd/cureutils/actions?query=workflow%3Atest><img src="https://github.com/greymd/cureutils/workflows/test/badge.svg?branch=master" alt="Build Status" /></a>
 </p>
 
 <p align="center">
