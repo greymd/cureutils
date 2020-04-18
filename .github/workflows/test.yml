@@ -1,0 +1,63 @@
+name :test
+
+# Some configures are inspired by https://github.com/sue445/rubicure/blob/master/.github/workflows/test.yml
+
+on:
+  push:
+    branches:
+      - master
+      - 'bugfix/**'
+      - 'feature/**'
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+  schedule:
+    - cron: "0 0 * * 6"
+
+env:
+  RUBYOPT: -EUTF-8
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby:
+          - ruby:2.2
+          - ruby:2.3
+          - ruby:2.4
+          - ruby:2.5
+          - ruby:2.6
+          - ruby:2.7
+          - rubylang/ruby:master-nightly-bionic
+        include:
+          - ruby: rubylang/ruby:master-nightly-bionic
+            allow_failures: "true"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # Keep cache under vendor/bundle
+      - name: Cache vendor/bundle
+        uses: actions/cache@v1
+        id: cache_gem
+        with:
+          path: vendor/bundle
+          key: v1-gem-${{ runner.os }}-${{ matrix.ruby }}-${{ github.sha }}
+          restore-keys: |
+            v1-gem-${{ runner.os }}-${{ matrix.ruby }}-
+        continue-on-error: ${{ matrix.allow_failures == 'true' }}
+
+      - name: bundle update
+        run: |
+          set -xe
+          bundle config path vendor/bundle
+          bundle update --jobs $(nproc) --retry 3
+        continue-on-error: ${{ matrix.allow_failures == 'true' }}
+
+      - run: bundle exec rspec
+        timeout-minutes: 1
+        continue-on-error: ${{ matrix.allow_failures == 'true' }}
