@@ -15,7 +15,7 @@
 
 ## Requirements
 
-* ruby >= 2.2.2
+* ruby >= 2.6
   + more: [.travis.yml](./.travis.yml)
 
 ## Installation
@@ -24,9 +24,6 @@ Install:
 
 ```
 $ gem install cureutils
-
-# for 2.2
-$ gem install 'backport_dig'
 ```
 
 
