@@ -15,7 +15,7 @@
 
 ## Requirements
 
-* ruby >= 2.6
+* ruby >= 2.7
   + more: [.travis.yml](./.travis.yml)
 
 ## Installation
