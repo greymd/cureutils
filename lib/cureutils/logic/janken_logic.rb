@@ -21,19 +21,39 @@ class JankenLogic < BaseLogic
     @buf = []
   end
 
-  attr_writer :io
-
   def puts(input)
     @buf << input
   end
 
+  # Ruby requires the object assigned to $stdout to respond to #write.
+  # Rubicure prints with Kernel#puts, so #puts is what collects the message,
+  # but #write has to exist for the assignment to be accepted.
+  def write(*args)
+    args.each { |arg| @buf << arg.to_s }
+    args.sum { |arg| arg.to_s.length }
+  end
+
   def janken
-    Cure.peace.io = self
-    Cure.peace.janken
+    capture_message { Cure.peace.janken }
     @buf[0..1].each do |msg|
       @out.puts msg
     end
     judge
+  end
+
+  # Rubicure::Girl#print_by_line writes the message with Kernel#puts, which
+  # always goes to $stdout. Rubicure::Girl is a Hash with MethodAccess, so
+  # `Cure.peace.io = self` just stored a Hash key and never redirected the
+  # output. As a result @buf stayed empty, the hand was printed before the
+  # player's input and #generated_te always fell back to 0 (グー).
+  # Swapping $stdout keeps the message in @buf without depending on
+  # Rubicure's internals.
+  def capture_message
+    original_stdout = $stdout
+    $stdout = self
+    yield
+  ensure
+    $stdout = original_stdout
   end
 
   def generated_te

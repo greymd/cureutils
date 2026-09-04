@@ -558,6 +558,23 @@ describe 'janken' do
     system('echo 1 | bundle exec ./bin/cure janken')
     expect($CHILD_STATUS.exitstatus.to_s).to match '^(0|1|2)$'
   end
+
+  # キュアピースの手が常に同じ値に固定されていないことを確かめる。
+  # 手を読み取れないと 0 (グー) に落ちるため、この検査で気付ける。
+  it 'generates various hands' do
+    hands = 30.times.map do
+      result = `echo 1 | bundle exec ./bin/cure janken`
+      result[/^キュアピース: (.+)$/, 1]
+    end
+    expect(hands.uniq.size).to be > 1
+  end
+
+  # 出した手を伏せたまま入力を求める。手が先に見えていたら勝負にならない。
+  it 'does not reveal the hand before the input' do
+    result = `echo 1 | bundle exec ./bin/cure janken`
+    before_input = result.split('1...グー').first
+    expect(before_input).to eq "ピカピカピカリン\nジャンケンポン！\n"
+  end
 end
 
 describe 'tr' do # rubocop:disable Metrics/BlockLength
